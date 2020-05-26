@@ -1,4 +1,8 @@
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   background-color: $color-main;
 
   &__container {
@@ -34,8 +38,12 @@
       background-color: $color-hover-lighter;
     }
 
-    &:not(:last-child) {
+    &--left-control:not(:last-child) {
       margin-right: 4px;
+    }
+
+    &--right-control {
+      margin-left: 10px;
     }
   }
   &__search-wrapper {
