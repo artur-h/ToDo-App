@@ -1,0 +1,23 @@
+.editor {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  &__container {
+    padding: 80px 55px 84px;
+    width: 100%;
+    max-width: 1110px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-end;
+  }
+  &__heading {
+    margin-right: 6px;
+  }
+  &__date {
+    color: $color-grey;
+    font-size: 13px;
+  }
+}

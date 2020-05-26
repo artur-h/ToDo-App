@@ -3,7 +3,9 @@
 
 @import "variables";
 @import "login";
-@import "list/header";
+@import "todo/header";
+@import "todo/editor";
+@import "todo/list";
 
 *,
 *:after,
@@ -13,4 +15,13 @@
 
 body {
   font-family: $font-main;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
 }

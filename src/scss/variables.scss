@@ -5,6 +5,9 @@ $color-main-darker: #134aa1;
 $color-border: #dbdbdb;
 $color-white: #fff;
 $color-black: #202020;
+$color-grey: grey;
+$color-light-grey: rgb(184, 184, 184);
+$color-hover-grey: rgb(238, 238, 238);
 $color-hover-lighter: hsla(0, 0, 100%, 0.2);
 
-$transition: background .15s cubic-bezier(.4,0,.2,1);
+$transition: .15s cubic-bezier(.4,0,.2,1);
