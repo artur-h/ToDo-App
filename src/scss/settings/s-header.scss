@@ -10,6 +10,7 @@
   z-index: 10;
 
   &__left-section {
+    padding-left: 12px;
     width: 250px;
   }
   &__right-section {
@@ -28,8 +29,12 @@
   &__close-wrapper {
     display: flex;
     align-items: center;
-    padding-right: 26px;
     color: $color-light-grey;
+    cursor: pointer;
+
+    &:hover .s-header__text {
+      color: $color-black;
+    }
   }
   &__text {
     padding-bottom: 3px;

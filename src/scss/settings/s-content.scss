@@ -1,17 +1,108 @@
+.s-container {
+  display: flex;
+  justify-content: center;
+  background-color: #fafafa;
+  height: 100vh;
+}
+
 .s-content {
+  padding: 90px 26px 40px;
+  border-right: 1px solid $color-border;
+  border-left: 1px solid $color-border;
+  width: 70%;
+  max-width: 700px;
+  background-color: $color-white;
 
+  &__fieldset {
+    margin: 0;
+    padding: 26px 0;
+    border: none;
 
-  &__fieldset {}
-  &__section-name {}
-  &__list {}
-  &__term {}
-  &__description {}
-  &__img-wrapper {}
-  &__img {}
-  &__data {}
-  &__edit {}
-  &__pwd-btn {}
-  &__delete-btn {}
-  &__warning-short {}
-  &__warning-long {}
+    &:first-child {
+      padding-top: 13px;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-border;
+    }
+  }
+  &__section-name {
+    margin-bottom: 7px;
+    font-size: 14px;
+  }
+  &__list {
+    display: flex;
+    margin: 0;
+    padding: 7px 0;
+    font-size: 13px;
+  }
+  &__term {
+    padding-right: 10px;
+    width: 150px;
+    color: $color-grey;
+  }
+  &__description {
+    margin: 0;
+  }
+  &__img-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  }
+  &__img {
+    background-image: url("../assets/images/default-account.png");
+    background-size: cover;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+  }
+  &__edit {
+    margin-left: 13px;
+    color: $color-red;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  &__pwd-btn {
+    padding: 3px 20px;
+    border: 1px solid #777;
+    border-radius: 3px;
+    background-color: $color-white;
+    line-height: 20px;
+    cursor: pointer;
+    outline: none;
+    
+    &:hover {
+      background-color: #777;
+      color: $color-white;
+    }
+  }
+  &__delete-btn {
+    padding: 3px 20px;
+    line-height: 24px;
+    min-width: 273px;
+    border: 1px solid $color-red;
+    border-radius: 3px;
+    color: $color-red;
+    background-color: $color-white;
+    text-align: center;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+      background-color: $color-red;
+      color: $color-white;
+    }
+  }
+  &__warning-short {
+    font-size: 13px;
+  }
+  &__warning-long {
+    margin: 7px 0 20px;
+    font-size: 11px;
+    color: $color-grey;
+  }
 }
