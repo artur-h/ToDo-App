@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Round" rel="stylesheet">
+  <link rel="icon" href="favicon.ico" type="image/icon">
+  <title>ToDo App</title>
+</head>
+<body>
+
+<div id="app">
+  <form class="delete">
+    <h1 class="delete__heading">
+      We'll be sorry to see you go, but thanks for trying ToDo App!
+    </h1>
+    <p class="delete__section">
+      Deleting your account is permanent.
+      <b>All your data will be wiped out immediately</b>
+      and you won't be able to get it back.
+    </p>
+    <div class="delete__section">
+      <label for="delete-password" class="delete__label">Current password</label>
+      <input type="password" id="delete-password" class="delete__password">
+      <p class="delete__description">
+        Deleting your account requires your current password as confirmation.
+        If you signed up via Google or Facebook, you can set a password in Account settings.
+      </p>
+    </div>
+    <div class="delete__section">
+      <label for="reason-for-delete" class="delete__label">Something wrong?</label>
+      <textarea id="reason-for-delete" class="delete__textarea"></textarea>
+      <p class="delete__description">
+        Let us know how we can improve. We'd appreciate the feedback!
+      </p>
+    </div>
+    <p>
+      <a href="#" class="delete__confirm-btn">Delete my account</a>
+      <a href="#" class="delete__cancel-btn">Cancel</a>
+    </p>
+  </form>
+</div>
+
+</body>
+</html>

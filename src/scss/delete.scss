@@ -1,0 +1,58 @@
+.delete {
+  margin: 50px auto 0;
+  padding: 0 20px;
+  max-width: 415px;
+  font-size: 13px;
+
+  &__heading {
+    margin: 13px 0;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 25px;
+  }
+  &__section {
+    margin-bottom: 25px;
+    line-height: 20px;
+  }
+  &__label {
+    display: block;
+  }
+  &__password,
+  &__textarea {
+    padding: 6px;
+    border: 1px solid $color-border;
+    border-radius: 3px;
+    width: 100%;
+  }
+  &__description {
+    margin-bottom: 4px;
+    padding-top: 6px;
+    line-height: 16px;
+    font-size: 11px;
+    color: $color-grey;
+  }
+  &__textarea {
+    height: 90px;
+  }
+  &__confirm-btn {
+    padding: 10px 12px;
+    background-color: $color-red;
+    color: $color-white;
+    line-height: 17px;
+    text-decoration: none;
+    border-radius: 3px;
+
+    &:hover {
+      background-color: $color-darker-red;
+    }
+  }
+  &__cancel-btn {
+    margin-left: 20px;
+    text-decoration: none;
+    color: $color-grey;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
