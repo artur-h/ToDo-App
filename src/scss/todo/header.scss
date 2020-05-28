@@ -1,0 +1,104 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: $color-main;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 42px;
+    height: 43px;
+  }
+  &__left-control {
+    display: flex;
+    align-items: center;
+  }
+  &__btn-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: 3px;
+    width: 28px;
+    height: 28px;
+    background: none;
+    color: $color-white;
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+      background-color: $color-hover-lighter;
+    }
+
+    &--left-control:not(:last-child) {
+      margin-right: 4px;
+    }
+
+    &--right-control {
+      margin-left: 10px;
+    }
+  }
+  &__search-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-left: 6px;
+
+    &:hover .header__search-icon,
+    &:hover .header__input::placeholder,
+    &:hover .header__input {
+      color: $color-black;
+    }
+
+    &:hover .header__input {
+      background: $color-white;
+    }
+  }
+  &__search-icon {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 24px;
+    color: $color-white;
+
+    &:hover {
+      cursor: text;
+    }
+  }
+  &__input {
+    padding: 5px 0 5px 34px;
+    background-color: $color-hover-lighter;
+    border: none;
+    border-radius: 3px;
+    max-width: 200px;
+    width: 100%;
+    font-size: 13px;
+    outline: none;
+    line-height: normal;
+    color: $color-white;
+    transition: $transition;
+
+    &::placeholder {
+      color: $color-white;
+    }
+
+    &:focus {
+      background: $color-white;
+    }
+
+    &:focus,
+    &:focus::placeholder,
+    &:focus ~ .header__search-icon {
+      color: $color-black;
+    }
+  }
+}
