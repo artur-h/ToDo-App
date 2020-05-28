@@ -106,3 +106,14 @@
     color: $color-grey;
   }
 }
+
+@media screen and (max-width: 690px) {
+  .s-container {
+    display: block;
+  }
+
+  .s-content {
+    width: 100%;
+    height: 100%;
+  }
+}
