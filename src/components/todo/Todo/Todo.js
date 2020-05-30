@@ -12,7 +12,8 @@ export class Todo {
     this.components = this.components.map(Component => {
       const rootWrapper = $.create('div', Component.className);
       const component = new Component(rootWrapper);
-      root.push(component.toHTML());
+      rootWrapper.append(component.toHTML());
+      root.push(rootWrapper.outer);
       return component;
     });
 

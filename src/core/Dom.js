@@ -3,8 +3,17 @@ class Dom {
     this.$el = createEl(selector);
   }
 
-  append(el) {
-    this.$el.append(el);
+  get outer() {
+    return this.$el.outerHTML;
+  }
+
+  append(element) {
+    if (typeof element === 'string') {
+      this.$el.insertAdjacentHTML('beforeend', element);
+      return this;
+    }
+
+    this.$el.append(element);
     return this;
   }
 }
