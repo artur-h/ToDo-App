@@ -30,7 +30,7 @@ export function createItem(data) {
   });
 
   items.push(`
-    <li class="list__add-task">
+    <li class="list__add-task" data-action="add-task">
       <div class="list__add-icon">
         <span class="material-icons list__add-icon-inner">add</span>
       </div>
@@ -39,22 +39,6 @@ export function createItem(data) {
   `);
 
   return items.join('');
-}
-
-export function addItemEditor() {
-  return `
-    <li class="item-editor">
-      <div class="item-editor__details" contenteditable="true"></div>
-      <div class="item-editor__action">
-        <button 
-          type="submit"
-          class="item-editor__submit"
-          disabled
-        >Add Task</button>
-        <button type="button" class="item-editor__cancel">Cancel</button>
-      </div>
-    </li>
-  `;
 }
 
 const data = [

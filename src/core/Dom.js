@@ -11,6 +11,14 @@ class Dom {
     this.$el.addEventListener(event, handler);
   }
 
+  closest(selector) {
+    return this.$el.closest(selector);
+  }
+
+  find(selector) {
+    return document.querySelector(selector);
+  }
+
   off(event, handler) {
     this.$el.removeEventListener(event, handler);
   }
