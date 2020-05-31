@@ -32,6 +32,12 @@ module.exports = {
     filename: filename('js'),
     path: path.resolve(__dirname, 'dist'),
   },
+  resolve: {
+    alias: {
+      '@components': path.resolve(__dirname, 'src/components/'),
+      '@core': path.resolve(__dirname, 'src/core/')
+    }
+  },
   devtool: isDev ? 'source-map' : false,
   devServer: {
     port: 3000,
