@@ -5,10 +5,21 @@ export class Header extends Component {
   static className = 'header';
 
   constructor($root) {
-    super($root);
+    super($root, {
+      name: 'Header',
+      listeners: ['click']
+    });
+  }
+
+  init() {
+    super.init();
   }
 
   toHTML() {
     return createHeader();
+  }
+
+  onClick(event) {
+    console.log(event.target, 'Header');
   }
 }

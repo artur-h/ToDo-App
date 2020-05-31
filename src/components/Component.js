@@ -1,8 +1,16 @@
 import {DomListener} from './DomListener';
 
 export class Component extends DomListener {
-  constructor($root) {
-    super($root);
+  constructor($root, options) {
+    super($root, options);
+  }
+
+  init() {
+    this.initHtmlListeners();
+  }
+
+  destroy() {
+    this.removeHtmlListeners();
   }
 
   toHTML() {

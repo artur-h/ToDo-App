@@ -7,14 +7,27 @@ class Dom {
     return this.$el.outerHTML;
   }
 
-  append(element) {
-    if (typeof element === 'string') {
-      this.$el.insertAdjacentHTML('beforeend', element);
-      return this;
+  on(event, handler) {
+    this.$el.addEventListener(event, handler);
+  }
+
+  off(event, handler) {
+    this.$el.removeEventListener(event, handler);
+  }
+
+  html(content = null) {
+    if (content === null) {
+      return this.$el.innerHTML;
     }
 
-    this.$el.append(element);
+    this.$el.innerHTML = content;
     return this;
+  }
+
+  append(element) {
+    element instanceof Dom ?
+      this.$el.append(element.$el) :
+      this.$el.append(element);
   }
 }
 

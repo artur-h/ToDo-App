@@ -7,24 +7,27 @@ export class Todo {
   }
 
   getRoot() {
-    const root = [];
+    const todo = $.create('div', 'todo');
 
     this.components = this.components.map(Component => {
       const rootWrapper = $.create('div', Component.className);
       const component = new Component(rootWrapper);
-      rootWrapper.append(component.toHTML());
-      root.push(rootWrapper.outer);
+      rootWrapper.html(component.toHTML());
+      todo.append(rootWrapper);
+
       return component;
     });
 
-    return root.join('');
+    return todo;
   }
 
   render() {
     this.$root.append(this.getRoot());
+    this.components.forEach(component => component.init());
   }
 
   destroy() {
-
+    this.$root.html('');
+    this.components.forEach(component => component.destroy());
   }
 }
