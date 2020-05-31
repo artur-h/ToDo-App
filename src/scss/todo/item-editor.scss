@@ -1,0 +1,42 @@
+.item-editor {
+  padding: 4px 0;
+
+  &__details {
+    margin-bottom: 6px;
+    padding: 8px;
+    border: 1px solid $color-border;
+    border-radius: 3px;
+    outline: none;
+  }
+  &__action {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+  }
+  &__submit {
+    margin-right: 5px;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: $color-main;
+    color: $color-white;
+    font-weight: 700;
+    line-height: 17px;
+    border: none;
+    border-radius: 3px;
+
+    &:disabled {
+      opacity: .3;
+    }
+  }
+  &__cancel {
+    padding: 2px 5px;
+    color: $color-black;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

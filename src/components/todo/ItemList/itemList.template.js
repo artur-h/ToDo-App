@@ -41,6 +41,22 @@ export function createItem(data) {
   return items.join('');
 }
 
+export function addItemEditor() {
+  return `
+    <li class="item-editor">
+      <div class="item-editor__details" contenteditable="true"></div>
+      <div class="item-editor__action">
+        <button 
+          type="submit"
+          class="item-editor__submit"
+          disabled
+        >Add Task</button>
+        <button type="button" class="item-editor__cancel">Cancel</button>
+      </div>
+    </li>
+  `;
+}
+
 const data = [
   {
     content: 'Buy some milk after work',
