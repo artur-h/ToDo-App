@@ -6,37 +6,36 @@ import {$} from '@core/Dom';
 export class ItemList extends Component {
   static className = 'editor';
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
+      ...options,
       name: 'ItemList',
-      listeners: ['click', 'input']
+      listeners: ['click']
     });
   }
 
   init() {
     super.init();
-    this.initAddTask();
-  }
-
-  initAddTask() {
-    const $addTaskBtn = this.$root.find('[data-action="add-task"]');
-    const $addTaskRoot = $.create('li', 'item-editor');
-    this.addTask = new AddTask($addTaskRoot, $addTaskBtn);
+    this.addTask = new AddTask(this.observer);
   }
 
   toHTML() {
     return createItemList();
   }
 
+  destroy() {
+    super.destroy();
+
+    if (!this.addTask.destroyed) {
+      this.addTask.close();
+    }
+  }
+
   onClick(event) {
     const target = $(event.target);
 
     if (target.closest('[data-action="add-task"]')) {
-      // emit "addTask" event to all subscribers using Observer
+      this.emit('ItemList: add-task', {});
     }
-  }
-
-  onInput(event) {
-    console.log(event);
   }
 }

@@ -4,8 +4,9 @@ import {createHeader} from './header.template';
 export class Header extends Component {
   static className = 'header';
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
+      ...options,
       name: 'Header',
       listeners: ['click']
     });

@@ -37,6 +37,30 @@ class Dom {
       this.$el.append(element.$el) :
       this.$el.append(element);
   }
+
+  before(element) {
+    element instanceof Dom ?
+      this.$el.before(element.$el) :
+      this.$el.before(element);
+  }
+
+  get action() {
+    return this.$el.dataset.action;
+  }
+
+  get parent() {
+    return $(this.$el.parentNode);
+  }
+
+  removeChild(element) {
+    element instanceof Dom ?
+      this.$el.removeChild(element.$el) :
+      this.$el.removeChild(element);
+  }
+
+  css(styles = {}) {
+    Object.keys(styles).forEach(key => this.$el.style[key] = styles[key]);
+  }
 }
 
 export function $(selector) {

@@ -90,6 +90,7 @@
     align-items: center;
     padding: 10px 0;
     cursor: pointer;
+    user-select: none ;
 
     &:hover .list__add-icon {
       background-color: $color-main;
