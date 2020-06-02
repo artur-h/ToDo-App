@@ -3,11 +3,11 @@ export function createItem(data) {
     return `
       <li class="list__item">
         <div class="list__details">
-          <div class="list__check">
+          <div class="list__check" data-action="complete" data-id="${item.id}">
             <span class="material-icons-round list__check-inner">done</span>
           </div>
           <div class="list__content">
-            <div class="list__text" contenteditable="true">
+            <div class="list__text">
               ${item.content}
             </div>
             <div class="list__bottom">

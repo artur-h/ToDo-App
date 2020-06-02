@@ -70,6 +70,14 @@ class Dom {
   css(styles = {}) {
     Object.keys(styles).forEach(key => this.$el.style[key] = styles[key]);
   }
+
+  closestAction(action) {
+    return this.$el.closest(`[data-action="${action}"]`);
+  }
+
+  get id() {
+    return this.$el.dataset.id;
+  }
 }
 
 export function $(selector) {
@@ -84,7 +92,7 @@ $.create = function(element, className) {
 
 function createEl(selector) {
   if (typeof selector === 'string') {
-    const element = document.querySelector(selector);
+    const element = document.body.querySelector(selector);
 
     if (!element) {
       throw new Error(`Can't find DOM element with such selector: ${selector}`);

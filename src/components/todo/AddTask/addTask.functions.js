@@ -1,8 +1,7 @@
 import {$} from '@core/Dom';
 
 export function renderAddTask(root) {
-  const $listAddTaskBtn = $(document.body
-      .querySelector('[data-action="add-task"]'));
+  const $listAddTaskBtn = $('[data-action="add-task"]');
 
   $listAddTaskBtn.before(root);
 

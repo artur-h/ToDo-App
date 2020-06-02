@@ -18,9 +18,13 @@ export class ItemList extends Component {
 
   init() {
     super.init();
-    this.addTask = new AddTask(this.observer);
+    this.addTask = new AddTask(this.observer, this.itemListData);
 
-    this.on('AddTask: add-task', data => {
+    this.on('AddTask: taskAdded', data => {
+      this.updateItemList(data);
+    });
+
+    this.on('AddTask: taskCompleted', data => {
       this.updateItemList(data);
     });
   }
@@ -32,13 +36,20 @@ export class ItemList extends Component {
   destroy() {
     super.destroy();
 
-    if (!this.addTask.destroyed) {
-      this.addTask.close();
+    this.destroyComponent(this.addTask);
+  }
+
+  destroyComponent(component) {
+    if (!component.el.destroyed) {
+      component.destroy();
     }
   }
 
-  updateItemList(data) {
-    this.itemListData.push(data);
+  updateItemList(data = null) {
+    this.itemListData = data;
+
+    this.destroyComponent(this.addTask);
+
     this.$root.text('');
     const content = this.toHTML(this.itemListData);
     this.$root.html(content);
@@ -47,8 +58,12 @@ export class ItemList extends Component {
   onClick(event) {
     const target = $(event.target);
 
-    if (target.closest('[data-action="add-task"]')) {
+    if (target.closestAction('add-task')) {
       this.emit('ItemList: add-task', {});
+    }
+
+    if (target.closestAction('complete')) {
+      this.emit('ItemList: process completion', target);
     }
   }
 }

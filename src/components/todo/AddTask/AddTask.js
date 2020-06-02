@@ -4,7 +4,7 @@ import {renderAddTask} from '@components/todo/AddTask/addTask.functions';
 import {$} from '@core/Dom';
 
 export class AddTask extends Component {
-  constructor(observer) {
+  constructor(observer, itemListData) {
     super(
         $.create('li', 'item-editor'),
         {
@@ -15,10 +15,13 @@ export class AddTask extends Component {
     );
 
     this.el = null;
+    this.itemListData = itemListData;
   }
 
   prepare() {
     this.on('ItemList: add-task', () => this.render());
+    this.on('ItemList: process completion', data => this.completeTask(data));
+
     this.$root.html(createAddTaskTemplate());
   }
 
@@ -34,6 +37,14 @@ export class AddTask extends Component {
     this.el.destroyed = true;
   }
 
+  completeTask(data) {
+    const id = $(data.closestAction('complete')).id;
+
+    this.itemListData = this.itemListData.filter(item => item.id !== +id);
+
+    this.emit('AddTask: taskCompleted', this.itemListData);
+  }
+
   onClick(event) {
     const target = $(event.target);
 
@@ -46,11 +57,13 @@ export class AddTask extends Component {
     }
 
     if (target.action === 'editor-add-task') {
-      this.emit('AddTask: add-task', {
+      this.itemListData.push({
         content: this.el.$input.textContent,
-        projectType: 'inbox'
+        projectType: 'inbox',
+        id: Date.now()
       });
-      this.destroy();
+
+      this.emit('AddTask: taskAdded', this.itemListData);
       this.render();
     }
   }
