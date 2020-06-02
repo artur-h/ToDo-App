@@ -32,6 +32,15 @@ class Dom {
     return this;
   }
 
+  text(content = null) {
+    if (content === null) {
+      return this.$el.textContent;
+    }
+
+    this.$el.textContent = content;
+    return this;
+  }
+
   append(element) {
     element instanceof Dom ?
       this.$el.append(element.$el) :

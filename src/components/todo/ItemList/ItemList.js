@@ -12,15 +12,21 @@ export class ItemList extends Component {
       name: 'ItemList',
       listeners: ['click']
     });
+
+    this.itemListData = [];
   }
 
   init() {
     super.init();
     this.addTask = new AddTask(this.observer);
+
+    this.on('AddTask: add-task', data => {
+      this.updateItemList(data);
+    });
   }
 
-  toHTML() {
-    return createItemList();
+  toHTML(data = this.itemListData) {
+    return createItemList(data);
   }
 
   destroy() {
@@ -29,6 +35,13 @@ export class ItemList extends Component {
     if (!this.addTask.destroyed) {
       this.addTask.close();
     }
+  }
+
+  updateItemList(data) {
+    this.itemListData.push(data);
+    this.$root.text('');
+    const content = this.toHTML(this.itemListData);
+    this.$root.html(content);
   }
 
   onClick(event) {

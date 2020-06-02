@@ -1,5 +1,3 @@
-const defaultProjectType = 'inbox';
-
 export function createItem(data) {
   const items = data.map(item => {
     return `
@@ -41,27 +39,20 @@ export function createItem(data) {
   return items.join('');
 }
 
-const data = [
-  {
-    content: 'Buy some milk after work',
-    projectType: defaultProjectType
-  },
-  {
-    content: 'Prepare homework',
-    projectType: defaultProjectType
-  },
-  {
-    content: 'Learn Spanish',
-    projectType: defaultProjectType
-  }
-];
+export function createItemList(data) {
+  const date = new Date();
 
-export function createItemList() {
+  const formatter = new Intl.DateTimeFormat('en-GB', {
+    weekday: 'short',
+    day: '2-digit',
+    month: 'short'
+  });
+
   return `
     <div class="editor__container">
       <header class="editor__header">
         <h2 class="editor__heading">Today</h2>
-        <span class="editor__date">Tue 26 May</span>
+        <span class="editor__date">${formatter.format(date)}</span>
       </header>
       <ul class="list">
         ${createItem(data)}

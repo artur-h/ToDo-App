@@ -1,4 +1,4 @@
-export function createNewTask() {
+export function createAddTaskTemplate() {
   return `
     <div 
       class="item-editor__details" 
@@ -9,7 +9,7 @@ export function createNewTask() {
       <button 
         type="submit"
         class="item-editor__submit"
-        data-action="add-task"
+        data-action="editor-add-task"
         disabled
       >Add Task</button>
       <button 

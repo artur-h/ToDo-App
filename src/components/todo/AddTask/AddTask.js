@@ -1,5 +1,6 @@
 import {Component} from '@components/Component';
-import {createNewTask} from '@components/todo/AddTask/addTask.template';
+import {createAddTaskTemplate} from '@components/todo/AddTask/addTask.template';
+import {renderAddTask} from '@components/todo/AddTask/addTask.functions';
 import {$} from '@core/Dom';
 
 export class AddTask extends Component {
@@ -13,35 +14,24 @@ export class AddTask extends Component {
         }
     );
 
-    this.$addTaskBtn = $(document.body
-        .querySelector('[data-action="add-task"]'));
-    this.destroyed = true;
+    this.el = null;
   }
 
   prepare() {
     this.on('ItemList: add-task', () => this.render());
-    this.$root.html(createNewTask());
+    this.$root.html(createAddTaskTemplate());
   }
 
   render() {
     super.init();
-
-    this.$addTaskBtn.before(this.$root);
-
-    this.$addTaskBtn.css({
-      display: 'none'
-    });
-
-    const input = this.$root.find('[data-type="new-task-input"]');
-    input.focus();
-
-    this.destroyed = false;
+    this.el = renderAddTask(this.$root);
   }
 
   destroy() {
     super.destroy();
+    this.el.$input.textContent = '';
     this.$root.parent.removeChild(this.$root);
-    this.destroyed = true;
+    this.el.destroyed = true;
   }
 
   onClick(event) {
@@ -50,13 +40,24 @@ export class AddTask extends Component {
     if (target.action === 'cancel') {
       this.destroy();
 
-      this.$addTaskBtn.css({
+      this.el.$listAddTaskBtn.css({
         display: 'flex'
       });
     }
+
+    if (target.action === 'editor-add-task') {
+      this.emit('AddTask: add-task', {
+        content: this.el.$input.textContent,
+        projectType: 'inbox'
+      });
+      this.destroy();
+      this.render();
+    }
   }
 
-  onInput() {
-    console.log('AddTask: input');
+  onInput(event) {
+    const target = $(event.target);
+
+    this.el.$editorAddTaskBtn.disabled = target.text() === '';
   }
 }
