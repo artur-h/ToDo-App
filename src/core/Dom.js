@@ -11,10 +11,6 @@ class Dom {
     this.$el.addEventListener(event, handler);
   }
 
-  closest(selector) {
-    return this.$el.closest(selector);
-  }
-
   find(selector) {
     return document.querySelector(selector);
   }
@@ -67,8 +63,29 @@ class Dom {
       this.$el.removeChild(element);
   }
 
+  attr(name, value = null) {
+    if (value === null) {
+      return this.$el.getAttribute(name);
+    } else {
+      this.$el.setAttribute(name, value);
+      return this;
+    }
+  }
+
+  insertHtmlBefore(html) {
+    this.$el.insertAdjacentHTML('beforebegin', html);
+  }
+
   css(styles = {}) {
     Object.keys(styles).forEach(key => this.$el.style[key] = styles[key]);
+  }
+
+  closest(selector) {
+    return this.$el.closest(selector);
+  }
+
+  closestType(type) {
+    return this.$el.closest(`[data-type="${type}"]`);
   }
 
   closestAction(action) {

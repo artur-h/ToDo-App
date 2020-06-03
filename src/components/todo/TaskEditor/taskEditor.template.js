@@ -1,4 +1,4 @@
-export function createAddTaskTemplate() {
+export function createTaskEditor() {
   return `
     <div 
       class="item-editor__details" 

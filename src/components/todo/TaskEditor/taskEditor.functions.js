@@ -1,18 +1,19 @@
 import {$} from '@core/Dom';
 
-export function renderAddTask(root) {
+export function renderTaskEditor(root) {
+  root.attr('data-type', 'task-editor');
+
   const $listAddTaskBtn = $('[data-action="add-task"]');
-
   $listAddTaskBtn.before(root);
-
-  const $editorAddTaskBtn = root.find('[data-action="editor-add-task"]');
   $listAddTaskBtn.css({
     display: 'none'
   });
 
+  const $editorAddTaskBtn = root.find('[data-action="editor-add-task"]');
   const $input = root.find('[data-type="new-task-input"]');
-  $input.focus();
+
   $editorAddTaskBtn.disabled = true;
+  $input.focus();
 
   return {
     $listAddTaskBtn,
