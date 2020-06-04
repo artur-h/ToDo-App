@@ -1,8 +1,6 @@
 import {Component} from '@components/Component';
-import {
-  createTaskEditor} from '@components/todo/TaskEditor/taskEditor.template';
-import {
-  renderTaskEditor} from '@components/todo/TaskEditor/taskEditor.functions';
+import {createTaskEditor} from '@TaskEditor/taskEditor.template';
+import {renderTaskEditor} from '@TaskEditor/taskEditor.functions';
 import {$} from '@core/Dom';
 
 export class TaskEditor extends Component {
@@ -16,7 +14,10 @@ export class TaskEditor extends Component {
         }
     );
 
-    this.el = null;
+    this.$listAddTaskBtn = null;
+    this.$editorAddTaskBtn = null;
+    this.$input = null;
+    this.destroyed = true;
   }
 
   prepare() {
@@ -27,19 +28,29 @@ export class TaskEditor extends Component {
 
   render() {
     super.init();
-    this.el = renderTaskEditor(this.$root);
+
+    const componentInfo = renderTaskEditor(this.$root);
+    [this.$listAddTaskBtn,
+      this.$editorAddTaskBtn,
+      this.$input,
+      this.destroyed] = Object.values(componentInfo);
   }
 
   destroy() {
     super.destroy();
-    this.el.$input.textContent = '';
+
+    this.$input.textContent = '';
     this.$root.parent.removeChild(this.$root);
-    this.el.destroyed = true;
+    this.destroyed = true;
+
+    this.$listAddTaskBtn.css({
+      display: 'flex'
+    });
   }
 
   sendNewTaskInfo() {
     const newTask = {
-      content: this.el.$input.textContent,
+      content: this.$input.textContent,
       projectType: 'Inbox',
       id: Date.now()
     };
@@ -48,9 +59,9 @@ export class TaskEditor extends Component {
   }
 
   setDefaultEditorView() {
-    this.el.$input.textContent = '';
-    this.el.$input.focus();
-    this.el.$editorAddTaskBtn.disabled = true;
+    this.$input.textContent = '';
+    this.$input.focus();
+    this.$editorAddTaskBtn.disabled = true;
   }
 
   onClick(event) {
@@ -58,10 +69,6 @@ export class TaskEditor extends Component {
 
     if (target.action === 'cancel') {
       this.destroy();
-
-      this.el.$listAddTaskBtn.css({
-        display: 'flex'
-      });
     }
 
     if (target.action === 'editor-add-task') {
@@ -73,15 +80,17 @@ export class TaskEditor extends Component {
   onInput(event) {
     const target = $(event.target);
 
-    this.el.$editorAddTaskBtn.disabled = target.text() === '';
+    this.$editorAddTaskBtn.disabled = target.text() === '';
   }
 
   onKeydown(event) {
     if (event.key === 'Enter') {
       event.preventDefault();
 
-      this.sendNewTaskInfo();
-      this.setDefaultEditorView();
+      if (!this.$editorAddTaskBtn.disabled) {
+        this.sendNewTaskInfo();
+        this.setDefaultEditorView();
+      }
     }
   }
 }

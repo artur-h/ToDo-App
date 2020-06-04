@@ -95,6 +95,10 @@ class Dom {
   get id() {
     return this.$el.dataset.id;
   }
+
+  get coords() {
+    return this.$el.getBoundingClientRect();
+  }
 }
 
 export function $(selector) {

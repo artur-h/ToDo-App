@@ -1,11 +1,14 @@
 .context-editor {
+  position: absolute;
   width: 250px;
   font-size: 13px;
   border: 1px solid $color-border;
   border-radius: 3px;
   z-index: 100;
   color: $color-black;
+  background-color: $color-white;
   box-shadow: $shadow;
+  user-select: none;
 
   &__body {
     margin: 4px 0;

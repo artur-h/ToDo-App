@@ -28,6 +28,7 @@
     text-align: center;
     cursor: pointer;
     transition: $transition;
+    user-select: none;
     
     &:hover {
       background-color: $color-hover-grey;
@@ -49,6 +50,7 @@
     padding: 2px 4px;
     max-width: 938px;
     min-height: 24px;
+    word-break: break-word;
   }
   &__project-info {
     display: flex;
@@ -90,7 +92,7 @@
     align-items: center;
     padding: 10px 0;
     cursor: pointer;
-    user-select: none ;
+    user-select: none;
 
     &:hover .list__add-icon {
       background-color: $color-main;

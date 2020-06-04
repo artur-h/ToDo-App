@@ -19,7 +19,11 @@ function taskTemplate(task) {
           </div>
         </div>
       </div>
-      <button class="list__action">
+      <button 
+        class="list__action" 
+        data-action="details" 
+        data-id="${task.id}"
+      >
         <span class="material-icons">more_horiz</span>
       </button>
     </li>

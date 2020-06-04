@@ -1,6 +1,7 @@
 import {Component} from '@components/Component';
 import {createTask, createTaskList} from './TaskList.template';
-import {TaskEditor} from '@components/todo/TaskEditor/TaskEditor';
+import {TaskEditor} from '@TaskEditor/TaskEditor';
+import {ContextEditor} from '@ContextEditor/ContextEditor';
 import {$} from '@core/Dom';
 
 export class TaskList extends Component {
@@ -14,15 +15,18 @@ export class TaskList extends Component {
     });
 
     this.taskListData = [];
-    this.taskEditor = null;
+    this.subComponents = [TaskEditor, ContextEditor];
   }
 
   init() {
     super.init();
-    this.taskEditor = new TaskEditor(this.observer);
+
+    this.subComponents = this.subComponents.map(SubComponent => {
+      return new SubComponent(this.observer);
+    });
 
     this.on('TaskEditor: taskAdded', task => {
-      this.renderAddedTask(task);
+      this.renderNewTask(task);
     });
   }
 
@@ -33,16 +37,18 @@ export class TaskList extends Component {
   destroy() {
     super.destroy();
 
-    this.destroySubComponent(this.taskEditor);
+    this.destroySubComponent();
   }
 
-  destroySubComponent(component) {
-    if (!component.el.destroyed) {
-      component.destroy();
-    }
+  destroySubComponent() {
+    this.subComponents.forEach(subComponent => {
+      if (!subComponent.destroyed) {
+        subComponent.destroy();
+      }
+    });
   }
 
-  renderAddedTask(task) {
+  renderNewTask(task) {
     this.taskListData.push(task);
     const renderedTask = createTask(task);
     const $taskEditor = $(this.$root.find('[data-type="task-editor"]'));
@@ -66,6 +72,12 @@ export class TaskList extends Component {
 
     if (target.closestAction('complete')) {
       this.completeTask(target);
+    }
+
+    if (target.closestAction('details')) {
+      event.stopPropagation();
+      const $target = $(target.closestAction('details'));
+      this.emit('TaskList: task-details', $target);
     }
   }
 }
