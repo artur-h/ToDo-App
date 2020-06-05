@@ -3,16 +3,12 @@ class Dom {
     this.$el = createEl(selector);
   }
 
-  get outer() {
-    return this.$el.outerHTML;
-  }
-
   on(event, handler) {
     this.$el.addEventListener(event, handler);
   }
 
   find(selector) {
-    return document.querySelector(selector);
+    return this.$el.querySelector(selector);
   }
 
   off(event, handler) {
@@ -80,16 +76,8 @@ class Dom {
     Object.keys(styles).forEach(key => this.$el.style[key] = styles[key]);
   }
 
-  closest(selector) {
-    return this.$el.closest(selector);
-  }
-
-  closestType(type) {
-    return this.$el.closest(`[data-type="${type}"]`);
-  }
-
-  closestAction(action) {
-    return this.$el.closest(`[data-action="${action}"]`);
+  closestData(data, value) {
+    return this.$el.closest(`[data-${data}="${value}"]`);
   }
 
   get id() {

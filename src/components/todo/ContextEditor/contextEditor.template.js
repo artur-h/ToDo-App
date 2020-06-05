@@ -21,17 +21,17 @@ const menuBtns = [
   {
     icon: 'edit',
     text: 'Edit task',
-    type: 'edit'
+    action: 'edit'
   },
   {
     icon: 'library_add',
     text: 'Duplicate',
-    type: 'duplicate'
+    action: 'duplicate'
   },
   {
     icon: 'delete_forever',
     text: 'Delete task',
-    type: 'delete'
+    action: 'delete'
   }
 ];
 
@@ -45,6 +45,7 @@ function creatPriorityBtns(btnData) {
             priority__icon
             priority__icon--${btn.priority}
           "
+          data-priority="${btn.priority}"
         >${btn.icon}</span>
       </button>
     `;
@@ -53,11 +54,11 @@ function creatPriorityBtns(btnData) {
   return html.join('');
 }
 
-function createMenuBtn(type) {
-  const btn = menuBtns.find(btn => btn.type === type);
+function createMenuBtn(action) {
+  const btn = menuBtns.find(btn => btn.action === action);
 
   return `
-    <tr class="context-editor__item">
+    <tr class="context-editor__item" data-action="${btn.action}">
       <td class="context-editor__item-inner">
         <span 
           class="material-icons-round context-editor__icon"

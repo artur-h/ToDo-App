@@ -2,6 +2,7 @@ import {Component} from '@components/Component';
 import {createTask, createTaskList} from './TaskList.template';
 import {TaskEditor} from '@TaskEditor/TaskEditor';
 import {ContextEditor} from '@ContextEditor/ContextEditor';
+import {prepareTask} from '@components/todo/TaskList/taskList.functions';
 import {$} from '@core/Dom';
 
 export class TaskList extends Component {
@@ -25,8 +26,8 @@ export class TaskList extends Component {
       return new SubComponent(this.observer);
     });
 
-    this.on('TaskEditor: taskAdded', task => {
-      this.renderNewTask(task);
+    this.on('TaskEditor: render', newTask => {
+      this.renderTask(newTask);
     });
   }
 
@@ -48,16 +49,15 @@ export class TaskList extends Component {
     });
   }
 
-  renderNewTask(task) {
-    this.taskListData.push(task);
-    const renderedTask = createTask(task);
+  renderTask(newTask) {
+    const renderedTask = createTask(prepareTask(newTask, this.taskListData));
     const $taskEditor = $(this.$root.find('[data-type="task-editor"]'));
     $taskEditor.insertHtmlBefore(renderedTask);
   }
 
   completeTask(target) {
-    const $task = $(target.closestType('task'));
-    const id = $task.id;
+    const $task = $(target.closestData('type', 'task'));
+    const id = parseInt($task.id);
 
     this.taskListData = this.taskListData.filter(item => item.id !== +id);
     $task.parent.removeChild($task);
@@ -66,18 +66,22 @@ export class TaskList extends Component {
   onClick(event) {
     const target = $(event.target);
 
-    if (target.closestAction('add-task')) {
+    if (target.closestData('action', 'add-task')) {
       this.emit('TaskList: add-task', {});
     }
 
-    if (target.closestAction('complete')) {
+    if (target.closestData('action', 'complete')) {
       this.completeTask(target);
     }
 
-    if (target.closestAction('details')) {
+    if (target.closestData('action', 'details')) {
       event.stopPropagation();
-      const $target = $(target.closestAction('details'));
-      this.emit('TaskList: task-details', $target);
+      const btn = $(target.closestData('action', 'details'));
+      const task = $(target.closestData('type', 'task'));
+      this.emit('TaskList: task-details', {
+        task,
+        btn
+      });
     }
   }
 }

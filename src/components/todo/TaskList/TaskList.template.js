@@ -6,7 +6,7 @@ function taskTemplate(task) {
           <span class="material-icons-round list__check-inner">done</span>
         </div>
         <div class="list__content">
-          <div class="list__text">
+          <div class="list__text" data-type="task-input">
             ${task.content}
           </div>
           <div class="list__bottom">

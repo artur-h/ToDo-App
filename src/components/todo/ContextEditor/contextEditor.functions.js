@@ -1,9 +1,9 @@
 import {$} from '@core/Dom';
 
-export function renderContextEditor(root, target) {
+export function renderContextEditor(root, btn) {
   const CONTEXT_EDITOR_WIDTH = 250;
-  const id = +target.id;
-  const coords = target.coords;
+  const id = +btn.id;
+  const coords = btn.coords;
 
   root.attr('data-type', 'context-editor');
   $(document.body).append(root);
@@ -18,8 +18,8 @@ export function renderContextEditor(root, target) {
   };
 }
 
-export function anotherBtnPressed(destroyed, currentTaskId, target) {
-  return !destroyed && currentTaskId !== +target.id;
+export function anotherBtnPressed(destroyed, currentTaskId, btn) {
+  return !destroyed && currentTaskId !== +btn.id;
 }
 
 export function sameBtnPressed(destroyed) {
@@ -30,7 +30,7 @@ export function triggered(event) {
   if (event.type === 'click') {
     const target = $(event.target);
 
-    if (!target.closestType('context-editor')) {
+    if (!target.closestData('type', 'context-editor')) {
       return true;
     }
   } else if (event.type === 'resize') {

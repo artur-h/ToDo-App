@@ -20,25 +20,28 @@ export class ContextEditor extends Component {
     );
 
     this.curentTaskId = null;
+    this.$curentTask = null;
     this.destroyed = true;
   }
   
   prepare() {
-    this.on('TaskList: task-details', target => this.render(target));
+    this.on('TaskList: task-details', data => this.render(data));
 
     this.$root.html(createContextEditor());
   }
 
-  render(target) {
-    if (anotherBtnPressed(this.destroyed, this.curentTaskId, target)) {
+  render({task, btn}) {
+    this.$curentTask = task;
+
+    if (anotherBtnPressed(this.destroyed, this.curentTaskId, btn)) {
       this.destroy();
-      this.render(target);
+      this.render({task, btn});
     } else if (sameBtnPressed(this.destroyed)) {
       this.destroy();
     } else {
       super.init();
 
-      const editorInfo = renderContextEditor(this.$root, target);
+      const editorInfo = renderContextEditor(this.$root, btn);
       [this.curentTaskId, this.destroyed] = Object.values(editorInfo);
 
       this.attachDestroyListeners();
@@ -72,6 +75,11 @@ export class ContextEditor extends Component {
   }
 
   onClick(event) {
-    console.log('ContextEditor:', event.target);
+    const $target = $(event.target);
+
+    if ($target.closestData('action', 'edit')) {
+      this.emit('ContextEditor: edit', this.$curentTask);
+      this.destroy();
+    }
   }
 }
