@@ -7,19 +7,10 @@ export function renderTaskEditor(root, options) {
   root.html(createTaskEditor(options.mode));
 
   let $listAddTaskBtn = null;
+  $listAddTaskBtn = insertEditorBefore(root, $listAddTaskBtn, options);
 
-  if (options.mode === 'add-task') {
-    $listAddTaskBtn = $('[data-action="add-task"]');
-    $listAddTaskBtn.before(root);
-    $listAddTaskBtn.css({
-      display: 'none'
-    });
-  } else if (options.mode === 'edit') {
-    options.task.before(root);
-  }
-
-  const $editorAddTaskBtn = root.find(`[data-action="editor-${options.mode}"]`);
-  $editorAddTaskBtn.disabled = true;
+  const $editorConfirmBtn = root.find(`[data-action="editor-${options.mode}"]`);
+  $editorConfirmBtn.disabled = true;
   const $input = root.find('[data-type="editor-input"]');
   $input.focus();
   
@@ -27,13 +18,29 @@ export function renderTaskEditor(root, options) {
     const currentInput = $(options.task.find('[data-type="task-input"]'));
     $($input).text(currentInput.text());
     setEndOfContenteditable($input);
-    $editorAddTaskBtn.disabled = false;
+    $editorConfirmBtn.disabled = false;
   }
 
   return {
     $listAddTaskBtn,
-    $editorAddTaskBtn,
+    $editorConfirmBtn,
     $input,
     destroyed: false
   };
+}
+
+function insertEditorBefore(root, listBtn, options) {
+  if (options.mode === 'add-task') {
+    listBtn = $('[data-action="add-task"]');
+    listBtn.before(root);
+    listBtn.css({
+      display: 'none'
+    });
+
+    return listBtn;
+  } else if (options.mode === 'edit') {
+    options.task.before(root);
+
+    return null;
+  }
 }
