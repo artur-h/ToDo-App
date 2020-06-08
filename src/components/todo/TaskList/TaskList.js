@@ -29,6 +29,10 @@ export class TaskList extends Component {
     this.on('TaskEditor: render', newTask => {
       this.renderTask(newTask);
     });
+
+    this.on('ContextEditor: duplicate', task => {
+      this.duplicateTask(task);
+    });
   }
 
   toHTML(data = this.taskListData) {
@@ -61,6 +65,19 @@ export class TaskList extends Component {
 
     this.taskListData = this.taskListData.filter(item => item.id !== +id);
     $task.parent.removeChild($task);
+  }
+
+  duplicateTask(task) {
+    let duplicateTask;
+
+    this.taskListData.forEach((t, index, arr) => {
+      if (t.id === task.id) {
+        duplicateTask = {...t, ...{id: Date.now()}};
+        arr.splice(index + 1, 0, duplicateTask);
+      }
+    });
+
+    task.insertHtmlAfter(createTask(duplicateTask));
   }
 
   onClick(event) {

@@ -72,6 +72,10 @@ class Dom {
     this.$el.insertAdjacentHTML('beforebegin', html);
   }
 
+  insertHtmlAfter(html) {
+    this.$el.insertAdjacentHTML('afterend', html);
+  }
+
   css(styles = {}) {
     Object.keys(styles).forEach(key => this.$el.style[key] = styles[key]);
   }
@@ -81,7 +85,7 @@ class Dom {
   }
 
   get id() {
-    return this.$el.dataset.id;
+    return parseInt(this.$el.dataset.id);
   }
 
   get coords() {
