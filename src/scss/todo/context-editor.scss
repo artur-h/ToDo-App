@@ -27,8 +27,7 @@
     }
   }
   &__item-inner {
-    display: flex;
-    align-items: center;
+    @include displayFlex(center);
     padding: 4px 10px;
     width: 100%;
 
@@ -66,9 +65,6 @@
     height: 28px;
     background-color: $color-white;
     border-radius: 3px;
-    border: none;
-    outline: none;
-    cursor: pointer;
 
     &:hover {
       background-color: $color-hover-grey;
@@ -79,10 +75,7 @@
     }
   }
   &__icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    @include centerAbsolute;
 
     &--p1 {
       color: $color-red;

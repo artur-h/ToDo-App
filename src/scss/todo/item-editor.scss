@@ -9,22 +9,18 @@
     outline: none;
   }
   &__action {
-    display: flex;
-    align-items: center;
+    @include displayFlex(center);
     font-size: 13px;
     user-select: none;
   }
   &__submit {
     margin-right: 5px;
     padding: 6px 12px;
-    cursor: pointer;
     background-color: $color-main;
     color: $color-white;
     font-weight: 700;
     line-height: 17px;
-    border: none;
     border-radius: 3px;
-    outline: none;
 
     &:disabled {
       opacity: .3;
@@ -33,10 +29,6 @@
   &__cancel {
     padding: 2px 5px;
     color: $color-black;
-    border: none;
-    background: none;
-    cursor: pointer;
-    outline: none;
 
     &:hover {
       text-decoration: underline;

@@ -1,12 +1,16 @@
 import {$} from '@core/Dom';
+import {creatPriorityBtns} from './contextEditor.template';
 
-export function renderContextEditor(root, btn) {
+export function renderContextEditor(root, btn, task) {
   const CONTEXT_EDITOR_WIDTH = 250;
   const id = +btn.id;
   const coords = btn.coords;
 
   root.attr('data-type', 'context-editor');
   $(document.body).append(root);
+  const priorityList = $(root.find('[data-type="priority-list"]'));
+  priorityList.html(creatPriorityBtns(task.priority));
+
   root.css({
     top: coords.bottom + 'px',
     left: coords.right - CONTEXT_EDITOR_WIDTH + 'px'

@@ -63,6 +63,7 @@ export class TaskEditor extends Component {
   sendTaskInfo(customized = null) {
     const defaultTask = {
       content: this.$input.textContent,
+      priority: 'p4',
       projectType: 'Inbox',
       id: Date.now()
     };

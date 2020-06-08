@@ -84,6 +84,10 @@ class Dom {
     return this.$el.closest(`[data-${data}="${value}"]`);
   }
 
+  get priority() {
+    return this.$el.dataset.priority;
+  }
+
   get id() {
     return parseInt(this.$el.dataset.id);
   }

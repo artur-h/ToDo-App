@@ -10,9 +10,7 @@
   }
 
   &__header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include displayFlex(center, center);
     margin-bottom: 20px;
   }
   &__logo {
@@ -45,17 +43,15 @@
     border: 1px solid $color-border;
     border-radius: 5px;
   }
-  &__bth {
+  &__btn {
     display: block;
     margin-bottom: 40px;
     padding: 9px 12px;
     width: 100%;
-    border: none;
     border-radius: 3px;
     color: $color-white;
     background-color: $color-main;
     font-weight: 700;
-    cursor: pointer;
 
     &:hover {
       background-color: #134aa1;

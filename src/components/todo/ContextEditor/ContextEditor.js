@@ -41,7 +41,7 @@ export class ContextEditor extends Component {
     } else {
       super.init();
 
-      const editorInfo = renderContextEditor(this.$root, btn);
+      const editorInfo = renderContextEditor(this.$root, btn, task);
       [this.curentTaskId, this.destroyed] = Object.values(editorInfo);
 
       this.attachDestroyListeners();
@@ -90,6 +90,19 @@ export class ContextEditor extends Component {
     if ($target.closestData('action', 'delete')) {
       this.emit('ContextEditor: delete', this.$curentTask);
       this.destroy();
+    }
+
+    if ($target.priority) {
+      if (this.$curentTask.priority === $target.priority) {
+        this.destroy();
+      } else {
+        this.emit('ContextEditor: priority', {
+          id: this.$curentTask.id,
+          task: this.$curentTask, 
+          priority: $target.priority
+        });
+        this.destroy();
+      }
     }
   }
 }

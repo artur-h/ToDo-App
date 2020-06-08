@@ -37,6 +37,10 @@ export class TaskList extends Component {
     this.on('ContextEditor: delete', task => {
       this.deleteTask(task);
     });
+
+    this.on('ContextEditor: priority', data => {
+      this.updatePriority(data);
+    });
   }
 
   toHTML(data = this.taskListData) {
@@ -61,6 +65,16 @@ export class TaskList extends Component {
     const renderedTask = createTask(prepareTask(newTask, this.taskListData));
     const $taskEditor = $(this.$root.find('[data-type="task-editor"]'));
     $taskEditor.insertHtmlBefore(renderedTask);
+  }
+
+  updatePriority(data) {
+    const task = data.task;
+    delete data.task;
+
+    const renderedTask = createTask(prepareTask(data, this.taskListData));
+    task.insertHtmlBefore(renderedTask);
+    task.parent.removeChild(task);
+    console.log(this.taskListData);
   }
 
   completeTask(target) {

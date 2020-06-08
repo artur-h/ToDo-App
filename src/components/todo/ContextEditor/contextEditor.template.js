@@ -1,60 +1,66 @@
-const priorityBtns = [
-  {
-    icon: 'flag',
-    priority: 'p1'
-  },
-  {
-    icon: 'flag',
-    priority: 'p2'
-  },
-  {
-    icon: 'flag',
-    priority: 'p3'
-  },
-  {
-    icon: 'outlined_flag',
-    priority: 'p4'
-  }
-];
+function toPriorityBtn(btn) {
+  const active = btn.active ? 'priority__option--active' : '';
 
-const menuBtns = [
-  {
-    icon: 'edit',
-    text: 'Edit task',
-    action: 'edit'
-  },
-  {
-    icon: 'library_add',
-    text: 'Duplicate',
-    action: 'duplicate'
-  },
-  {
-    icon: 'delete_forever',
-    text: 'Delete task',
-    action: 'delete'
-  }
-];
+  return `
+    <button class="priority__option ${active}" data-priority="${btn.priority}">
+      <span
+        class="
+          material-icons-round
+          priority__icon
+          priority__icon--${btn.priority}
+        "
+        data-priority="${btn.priority}"
+      >${btn.icon}</span>
+    </button>
+  `;
+}
 
-function creatPriorityBtns(btnData) {
-  const html = btnData.map(btn => {
-    return `
-      <button class="priority__option">
-        <span
-          class="
-            material-icons-round
-            priority__icon
-            priority__icon--${btn.priority}
-          "
-          data-priority="${btn.priority}"
-        >${btn.icon}</span>
-      </button>
-    `;
-  });
+export function creatPriorityBtns(priority) {
+  const priorityBtns = [
+    {
+      icon: 'flag',
+      priority: 'p1',
+      active: 'p1' === priority
+    },
+    {
+      icon: 'flag',
+      priority: 'p2',
+      active: 'p2' === priority
+    },
+    {
+      icon: 'flag',
+      priority: 'p3',
+      active: 'p3' === priority
+    },
+    {
+      icon: 'outlined_flag',
+      priority: 'p4',
+      active: 'p4' === priority
+    }
+  ];
 
-  return html.join('');
+  return priorityBtns.map(toPriorityBtn).join('');
 }
 
 function createMenuBtn(action) {
+  const menuBtns = [
+    {
+      icon: 'edit',
+      text: 'Edit task',
+      action: 'edit'
+    },
+    {
+      icon: 'library_add',
+      text: 'Duplicate',
+      action: 'duplicate'
+    },
+    {
+      icon: 'delete_forever',
+      text: 'Delete task',
+      action: 'delete'
+    }
+  ];
+
   const btn = menuBtns.find(btn => btn.action === action);
 
   return `
@@ -93,8 +99,8 @@ export function createContextEditor() {
         >
           <ul class="priority">
             <li class="priority__description">Priority</li>
-            <li class="priority__list">
-              ${creatPriorityBtns(priorityBtns)}
+            <li class="priority__list" data-type="priority-list">
+              ${creatPriorityBtns()}
             </li>
           </ul>
         </td>

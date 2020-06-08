@@ -1,6 +1,5 @@
 .editor {
-  display: flex;
-  align-items: center;
+  @include displayFlex(center);
   flex-direction: column;
 
   &__container {
@@ -10,8 +9,7 @@
   }
 
   &__header {
-    display: flex;
-    align-items: flex-end;
+    @include displayFlex(flex-end);
   }
   &__heading {
     margin-right: 6px;
