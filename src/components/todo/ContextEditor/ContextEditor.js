@@ -86,5 +86,10 @@ export class ContextEditor extends Component {
       this.emit('ContextEditor: duplicate', this.$curentTask);
       this.destroy();
     }
+
+    if ($target.closestData('action', 'delete')) {
+      this.emit('ContextEditor: delete', this.$curentTask);
+      this.destroy();
+    }
   }
 }

@@ -33,6 +33,10 @@ export class TaskList extends Component {
     this.on('ContextEditor: duplicate', task => {
       this.duplicateTask(task);
     });
+
+    this.on('ContextEditor: delete', task => {
+      this.deleteTask(task);
+    });
   }
 
   toHTML(data = this.taskListData) {
@@ -61,10 +65,8 @@ export class TaskList extends Component {
 
   completeTask(target) {
     const $task = $(target.closestData('type', 'task'));
-    const id = parseInt($task.id);
 
-    this.taskListData = this.taskListData.filter(item => item.id !== +id);
-    $task.parent.removeChild($task);
+    this.deleteTask($task);
   }
 
   duplicateTask(task) {
@@ -78,6 +80,11 @@ export class TaskList extends Component {
     });
 
     task.insertHtmlAfter(createTask(duplicateTask));
+  }
+
+  deleteTask(task) {
+    this.taskListData = this.taskListData.filter(t => t.id !== task.id);
+    task.parent.removeChild(task);
   }
 
   onClick(event) {
