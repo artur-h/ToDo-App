@@ -95,6 +95,10 @@ class Dom {
   get coords() {
     return this.$el.getBoundingClientRect();
   }
+
+  get tooltip() {
+    return this.$el.dataset.tooltip;
+  }
 }
 
 export function $(selector) {

@@ -10,6 +10,7 @@ function toPriorityBtn(btn) {
           priority__icon--${btn.priority}
         "
         data-priority="${btn.priority}"
+        data-tooltip="show"
       >${btn.icon}</span>
     </button>
   `;

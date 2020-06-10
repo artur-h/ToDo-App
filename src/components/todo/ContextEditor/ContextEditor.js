@@ -15,7 +15,7 @@ export class ContextEditor extends Component {
         {
           observer,
           name: 'ContextEditor',
-          listeners: ['click']
+          listeners: ['click', 'mouseover']
         }
     );
 
@@ -103,6 +103,14 @@ export class ContextEditor extends Component {
         });
         this.destroy();
       }
+    }
+  }
+
+  onMouseover(event) {
+    const $target = $(event.target);
+
+    if ($target.tooltip === 'show') {
+      this.emit('ContextEditor: tooltip-over', $target);
     }
   }
 }

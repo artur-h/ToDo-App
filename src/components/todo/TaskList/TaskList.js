@@ -74,7 +74,6 @@ export class TaskList extends Component {
     const renderedTask = createTask(prepareTask(data, this.taskListData));
     task.insertHtmlBefore(renderedTask);
     task.parent.removeChild(task);
-    console.log(this.taskListData);
   }
 
   completeTask(target) {
