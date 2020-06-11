@@ -13,6 +13,7 @@ export class TaskList extends Component {
     super($root, {
       ...options,
       name: 'TaskList',
+      subscribe: [],
       listeners: ['click']
     });
 
@@ -48,6 +49,10 @@ export class TaskList extends Component {
     this.on('ContextEditor: priority', data => {
       this.updatePriority(data);
     });
+  }
+
+  storeChanged(changes) {
+    console.log(`do something with ${changes}`);
   }
 
   toHTML(data = this.taskListData) {

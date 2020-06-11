@@ -4,6 +4,8 @@ export class Component extends DomListener {
   constructor($root, options) {
     super($root, options);
     this.observer = options.observer;
+    this.store = options.store;
+    this.subscribe = options.subscribe;
 
     this.prepare();
   }
@@ -19,7 +21,7 @@ export class Component extends DomListener {
   }
 
   toHTML() {
-    throw new Error('This method has to be rewritten');
+    throw new Error('toHTML method has to be rewritten');
   }
 
   on(eventType, listener) {
@@ -32,5 +34,13 @@ export class Component extends DomListener {
 
   emit(eventType, data) {
     this.observer.emit(eventType, data);
+  }
+
+  isWatching(key) {
+    return this.subscirbe.includes(key);
+  }
+
+  storeChanged() {
+    throw new Error('storeChanged method has to be rewritten');
   }
 }

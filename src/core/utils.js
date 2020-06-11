@@ -11,3 +11,19 @@ export function setEndOfContenteditable(contentEditableElement) {
   selection.removeAllRanges();
   selection.addRange(range);
 }
+
+export function storage(key, value = null) {
+  if (value) {
+    localStorage.setItem(key, value);
+  } else {
+    localStorage.getItem(key);
+  }
+}
+
+export function isEqual(a, b) {
+  if (typeof a === 'object' && typeof b === 'object') {
+    return JSON.stringify(a) === JSON.stringify(b);
+  }
+
+  return a === b;
+}
