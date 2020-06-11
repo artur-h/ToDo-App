@@ -14,13 +14,7 @@
     user-select: none;
   }
   &__submit {
-    margin-right: 5px;
-    padding: 6px 12px;
-    background-color: $color-main;
-    color: $color-white;
-    font-weight: 700;
-    line-height: 17px;
-    border-radius: 3px;
+    @include standardBtn;
 
     &:disabled {
       opacity: .3;

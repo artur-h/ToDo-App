@@ -68,7 +68,7 @@ export function createTaskList(data) {
   });
 
   return `
-    <div class="editor__container">
+    <div class="editor__container" data-type="task-list-container">
       <header class="editor__header">
         <h2 class="editor__heading">Today</h2>
         <span class="editor__date">${formatter.format(date)}</span>

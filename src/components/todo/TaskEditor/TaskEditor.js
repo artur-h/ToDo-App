@@ -24,7 +24,7 @@ export class TaskEditor extends Component {
   }
 
   prepare() {
-    this.on('TaskList: add-task', () => this.render({mode: this.ADD_MODE}));
+    this.on('add-task', () => this.render({mode: this.ADD_MODE}));
     this.on('ContextEditor: edit', task => this.editTask(task));
   }
 
@@ -58,6 +58,8 @@ export class TaskEditor extends Component {
         display: 'flex'
       });
     }
+
+    this.emit('TaskEditor: destroy', {});
   }
 
   sendTaskInfo(customized = null) {

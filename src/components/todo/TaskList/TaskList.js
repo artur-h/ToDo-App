@@ -3,6 +3,7 @@ import {createTask, createTaskList} from './TaskList.template';
 import {TaskEditor} from '@TaskEditor/TaskEditor';
 import {ContextEditor} from '@ContextEditor/ContextEditor';
 import {prepareTask} from '@components/todo/TaskList/taskList.functions';
+import {EmptyStatePlaceholder} from '@holder/EmptyStatePlaceholder';
 import {$} from '@core/Dom';
 
 export class TaskList extends Component {
@@ -16,7 +17,7 @@ export class TaskList extends Component {
     });
 
     this.taskListData = [];
-    this.subComponents = [TaskEditor, ContextEditor];
+    this.subComponents = [TaskEditor, ContextEditor, EmptyStatePlaceholder];
   }
 
   init() {
@@ -24,6 +25,12 @@ export class TaskList extends Component {
 
     this.subComponents = this.subComponents.map(SubComponent => {
       return new SubComponent(this.observer);
+    });
+
+    this.renderEmptyStatePlaceholder();
+
+    this.on('TaskEditor: destroy', () => {
+      this.renderEmptyStatePlaceholder();
     });
 
     this.on('TaskEditor: render', newTask => {
@@ -98,13 +105,21 @@ export class TaskList extends Component {
   deleteTask(task) {
     this.taskListData = this.taskListData.filter(t => t.id !== task.id);
     task.parent.removeChild(task);
+    this.renderEmptyStatePlaceholder();
+  }
+
+  renderEmptyStatePlaceholder() {
+    if (this.taskListData.length === 0) {
+      this.emit('renderPlaceholder', {});
+    }
   }
 
   onClick(event) {
     const target = $(event.target);
 
     if (target.closestData('action', 'add-task')) {
-      this.emit('TaskList: add-task', {});
+      this.emit('add-task', {});
+      this.emit('destroyPlaceholder', {});
     }
 
     if (target.closestData('action', 'complete')) {

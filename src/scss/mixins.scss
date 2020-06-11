@@ -20,3 +20,13 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+@mixin standardBtn {
+  margin-right: 5px;
+  padding: 8px 12px;
+  background-color: $color-main;
+  color: $color-white;
+  font-weight: 700;
+  line-height: 17px;
+  border-radius: 3px;
+}

@@ -1,6 +1,11 @@
 export function showTooltip(target, root) {
   if (target.priority) {
-    root.text('Priority ' + target.priority.slice(1));
+    root.html(`
+      Priority ${target.priority.slice(1)}
+      <div class="tooltip__wrapper">
+        <div class="tooltip__arrow"></div>
+      </div>
+    `);
   }
 
   root.css({
