@@ -138,5 +138,14 @@ export class TaskEditor extends Component {
         this.setDefaultEditorView();
       }
     }
+
+    if (event.key === 'Escape') {
+      if (this.isEditing) {
+        $('[data-type="task-editor"]').before(this.currentEditTask);
+        this.destroy(this.EDIT_MODE);
+      } else {
+        this.destroy();
+      }
+    }
   }
 }

@@ -119,7 +119,9 @@ export class TaskList extends Component {
 
     if (target.closestData('action', 'add-task')) {
       this.emit('add-task', {});
-      this.emit('destroyPlaceholder', {});
+      if (this.taskListData.length === 0) {
+        this.emit('destroyPlaceholder', {});
+      }
     }
 
     if (target.closestData('action', 'complete')) {
