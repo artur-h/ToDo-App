@@ -4,12 +4,25 @@ $color-main: #185ABD;
 $color-main-darker: #134aa1;
 $color-border: #dbdbdb;
 $color-white: #fff;
-$color-black: #202020;
+$color-black: #333333;
 $color-grey: grey;
 $color-light-grey: rgb(184, 184, 184);
 $color-hover-grey: rgb(238, 238, 238);
 $color-hover-lighter: hsla(0, 0, 100%, 0.2);
 $color-red: #dd4b39;
 $color-darker-red: #c53727;
+$color-orange: rgb(235, 137, 9);
+
+$color-p1: #d1453b;
+$color-p1-lighter: rgba(209,69,59,.1);
+$color-p1-darker: rgba(209,69,59,.2);
+$color-p2: #eb8909;
+$color-p2-lighter: rgba(235,137,9,.1);
+$color-p2-darker: rgba(235,137,9,.2);
+$color-p3: #185abd;
+$color-p3-lighter: rgba(36,111,224,.1);
+$color-p3-darker: rgba(36,111,224,.2);
 
 $transition: .15s cubic-bezier(.4,0,.2,1);
+
+$shadow: 0 1px 8px 0 rgba(0,0,0,.08);

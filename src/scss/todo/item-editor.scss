@@ -1,0 +1,31 @@
+.item-editor {
+  padding: 4px 0;
+
+  &__details {
+    margin-bottom: 6px;
+    padding: 8px;
+    border: 1px solid $color-border;
+    border-radius: 3px;
+    outline: none;
+  }
+  &__action {
+    @include displayFlex(center);
+    font-size: 13px;
+    user-select: none;
+  }
+  &__submit {
+    @include standardBtn;
+
+    &:disabled {
+      opacity: .3;
+    }
+  }
+  &__cancel {
+    padding: 2px 5px;
+    color: $color-black;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

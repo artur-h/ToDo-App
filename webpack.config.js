@@ -35,7 +35,13 @@ module.exports = {
   resolve: {
     alias: {
       '@components': path.resolve(__dirname, 'src/components/'),
-      '@core': path.resolve(__dirname, 'src/core/')
+      '@core': path.resolve(__dirname, 'src/core/'),
+      '@ContextEditor': path
+          .resolve(__dirname, 'src/components/todo/ContextEditor/'),
+      '@TaskEditor': path
+          .resolve(__dirname, 'src/components/todo/TaskEditor/'),
+      '@holder': path
+          .resolve(__dirname, 'src/components/todo/EmptyStatePlaceholder/')
     }
   },
   devtool: isDev ? 'source-map' : false,

@@ -1,0 +1,93 @@
+.context-editor {
+  position: absolute;
+  width: 250px;
+  font-size: 13px;
+  border: 1px solid $color-border;
+  border-radius: 3px;
+  z-index: 100;
+  color: $color-black;
+  background-color: $color-white;
+  box-shadow: $shadow;
+  user-select: none;
+
+  &__body {
+    margin: 4px 0;
+    width: 100%;
+  }
+  &__item {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: $color-hover-grey;
+    }
+
+    &--no-hover:hover {
+      cursor: default;
+      background-color: $color-white;
+    }
+  }
+  &__item-inner {
+    @include displayFlex(center);
+    padding: 4px 10px;
+    width: 100%;
+
+    &--wrapper {
+      padding: 8px 10px 0;
+    }
+  }
+  &__icon {
+    margin-right: 10px;
+    color: $color-grey;
+  }
+  &__separator {
+    padding: 4px 0;
+  }
+  &__separator-inner {
+    background-color: $color-border;
+    height: 1px;
+  }
+}
+
+.priority {
+
+  &__description {
+    margin-bottom: 11px;
+    font-size: 11px;
+  }
+  &__list {
+    margin-bottom: 5px;
+  }
+  &__option {
+    position: relative;
+    margin-right: 15px;
+    padding: 1px;
+    width: 28px;
+    height: 28px;
+    background-color: $color-white;
+    border-radius: 3px;
+
+    &:hover {
+      background-color: $color-hover-grey;
+    }
+
+    &--active {
+      border: 1px solid $color-border;
+    }
+  }
+  &__icon {
+    @include centerAbsolute;
+
+    &--p1 {
+      color: $color-red;
+    }
+    &--p2 {
+      color: $color-orange;
+    }
+    &--p3 {
+      color: $color-main;
+    }
+    &--p4 {
+      color: $color-grey;
+    }
+  }
+}

@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 @import '~normalize.css';
 
+@import "mixins";
 @import "variables";
 @import "login";
 @import "todo/header";
 @import "todo/editor";
 @import "todo/list";
+@import "todo/item-editor";
+@import "todo/context-editor";
+@import "todo/tooltip";
+@import "todo/emptyStatePlaceholder";
 @import "settings/s-header";
 @import "settings/s-aside";
 @import "settings/s-content";
@@ -28,4 +33,11 @@ h1, h2, h3, h4, h5, h6, p, ul {
 ul {
   list-style: none;
   padding: 0;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: none;
 }

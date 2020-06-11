@@ -6,33 +6,23 @@
   background-color: $color-main;
 
   &__container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @include displayFlex(center, space-between);
     padding: 0 42px;
     height: 43px;
   }
   &__left-control {
-    display: flex;
-    align-items: center;
+    @include displayFlex(center);
   }
   &__btn-wrapper {
-    display: flex;
-    align-items: center;
+    @include displayFlex(center);
   }
   &__btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include displayFlex(center, center);
     padding: 0;
-    border: none;
     border-radius: 3px;
     width: 28px;
     height: 28px;
-    background: none;
     color: $color-white;
-    cursor: pointer;
-    outline: none;
 
     &:hover {
       background-color: $color-hover-lighter;
@@ -47,8 +37,7 @@
     }
   }
   &__search-wrapper {
-    display: flex;
-    align-items: center;
+    @include displayFlex(center);
     position: relative;
     margin-left: 6px;
 
