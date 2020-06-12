@@ -13,7 +13,7 @@ export class TaskList extends Component {
     super($root, {
       ...options,
       name: 'TaskList',
-      subscribe: [],
+      subscribe: ['taskList'],
       listeners: ['click']
     });
 
@@ -25,7 +25,7 @@ export class TaskList extends Component {
     super.init();
 
     this.subComponents = this.subComponents.map(SubComponent => {
-      return new SubComponent(this.observer);
+      return new SubComponent(this.observer, this.store);
     });
 
     this.renderEmptyStatePlaceholder();

@@ -37,10 +37,14 @@ export class Component extends DomListener {
   }
 
   isWatching(key) {
-    return this.subscirbe.includes(key);
+    return this.subscribe.includes(key);
   }
 
   storeChanged() {
     throw new Error('storeChanged method has to be rewritten');
+  }
+
+  dispatch(action) {
+    this.store.dispatch(action);
   }
 }

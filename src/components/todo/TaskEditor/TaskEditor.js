@@ -1,13 +1,15 @@
 import {Component} from '@components/Component';
 import {renderTaskEditor} from '@TaskEditor/taskEditor.functions';
 import {$} from '@core/Dom';
+import {createTask} from '@core/state/actions';
 
 export class TaskEditor extends Component {
-  constructor(observer) {
+  constructor(observer, store) {
     super(
         $.create('li', 'item-editor'),
         {
           observer,
+          store,
           name: 'TaskEditor',
           listeners: ['click', 'input', 'keydown']
         }
@@ -63,14 +65,18 @@ export class TaskEditor extends Component {
   }
 
   sendTaskInfo(customized = null) {
-    const defaultTask = {
+    const defaultTask = this.defaultTask();
+
+    this.emit('TaskEditor: render', customized || defaultTask);
+  }
+
+  defaultTask() {
+    return {
       content: this.$input.textContent,
       priority: 'p4',
       projectType: 'Inbox',
       id: Date.now()
     };
-
-    this.emit('TaskEditor: render', customized || defaultTask);
   }
 
   setDefaultEditorView() {
@@ -104,7 +110,7 @@ export class TaskEditor extends Component {
     }
 
     if (target.action === 'editor-add-task') {
-      this.sendTaskInfo();
+      this.dispatch(createTask(this.defaultTask()));
       this.setDefaultEditorView();
     }
 
