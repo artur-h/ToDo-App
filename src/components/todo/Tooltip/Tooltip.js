@@ -5,7 +5,11 @@ export class Tooltip extends Component {
   static className = 'tooltip';
 
   constructor($root, options) {
-    super($root, {...options, name: 'Tooltip'});
+    super($root, {
+      ...options, 
+      subscribe: [],
+      name: 'Tooltip'
+    });
   }
 
   toHTML() {

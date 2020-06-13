@@ -1,5 +1,5 @@
 export function createStore(rootReducer, initialState) {
-  let state = rootReducer(initialState, {type: '__INIT__'});
+  let state = rootReducer({...initialState}, {type: '__INIT__'});
   let subscribers = [];
 
   return {
@@ -8,16 +8,17 @@ export function createStore(rootReducer, initialState) {
 
       return {
         unsubscribe() {
-          subscribers = subscribers.forEach(sub => sub !== callback);
+          subscribers = subscribers.filter(sub => sub !== callback);
         }
       };
     },
     dispatch(action) {
       state = rootReducer(state, action);
+
       subscribers.forEach(sub => sub(state));
     },
     getState() {
-      return state;
+      return JSON.parse(JSON.stringify(state));
     }
   };
 }

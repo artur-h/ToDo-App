@@ -14,9 +14,9 @@ export function setEndOfContenteditable(contentEditableElement) {
 
 export function storage(key, value = null) {
   if (value) {
-    localStorage.setItem(key, value);
+    localStorage.setItem(key, JSON.stringify(value));
   } else {
-    localStorage.getItem(key);
+    return JSON.parse(localStorage.getItem(key));
   }
 }
 

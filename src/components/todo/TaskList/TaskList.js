@@ -52,10 +52,15 @@ export class TaskList extends Component {
   }
 
   storeChanged(changes) {
-    console.log(`do something with ${changes}`);
+    const taskList = Object.values(changes.taskList);
+    this.$root.html(this.toHTML(taskList));
   }
 
-  toHTML(data = this.taskListData) {
+  taskList() {
+    return Object.values(this.store.getState().taskList);
+  }
+
+  toHTML(data = this.taskList()) {
     return createTaskList(data);
   }
 
@@ -114,7 +119,7 @@ export class TaskList extends Component {
   }
 
   renderEmptyStatePlaceholder() {
-    if (this.taskListData.length === 0) {
+    if (this.taskList().length === 0) {
       this.emit('renderPlaceholder', {});
     }
   }
@@ -124,7 +129,7 @@ export class TaskList extends Component {
 
     if (target.closestData('action', 'add-task')) {
       this.emit('add-task', {});
-      if (this.taskListData.length === 0) {
+      if (this.taskList().length === 0) {
         this.emit('destroyPlaceholder', {});
       }
     }

@@ -9,7 +9,7 @@ export class Todo {
     this.instances = [];
     this.observer = new Observer();
     this.store = store;
-    this.subscriber = new StoreSubscriber(this.store);
+    this.subscriber = new StoreSubscriber(store);
   }
 
   getRoot() {

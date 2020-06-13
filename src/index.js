@@ -12,6 +12,6 @@ const store = createStore(rootReducer, initialState);
 
 const todo = new Todo('#app', [Header, TaskList, Tooltip], store);
 
-store.subscribe(state => storage('todo', JSON.stringify(state)));
+store.subscribe(state => storage('todo', state));
 
 todo.render();
