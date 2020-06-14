@@ -1,8 +1,8 @@
-import {CHANGE_TEXT, CREATE_TASK, REMOVE_TASK} from '@core/state/types';
+import {UPDATE_TASK, CREATE_TASK, REMOVE_TASK} from '@core/state/types';
 
-export function changeText(data) {
+export function updateTask(data) {
   return {
-    type: CHANGE_TEXT,
+    type: UPDATE_TASK,
     data
   };
 }

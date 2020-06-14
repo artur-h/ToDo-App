@@ -2,7 +2,7 @@ import {Component} from '@components/Component';
 import {renderTaskEditor} from '@TaskEditor/taskEditor.functions';
 import {setEndOfContenteditable} from '@core/utils';
 import {$} from '@core/Dom';
-import {createTask} from '@core/state/actions';
+import {createTask, updateTask} from '@core/state/actions';
 
 export class TaskEditor extends Component {
   constructor(observer, store) {
@@ -71,11 +71,32 @@ export class TaskEditor extends Component {
       if (this.destroyed === false) {
         this.currentText = this.$input.textContent;
         this.reRenderStatus = 'prepared';
-        this.destroy();
+
+        if (this.isEditing) {
+          this.destroy(this.EDIT_MODE);
+          this.reRenderEditMode = true;
+        } else {
+          this.destroy();
+        }
       }
     } else if (phase === 'finish') {
       if (this.reRenderStatus === 'prepared') {
-        this.render();
+        if (this.reRenderEditMode) {
+          const tasks = $(document.body).findAll('[data-type="task"]');
+          let task;
+          tasks.forEach(t => {
+            if (+t.dataset.id === this.editedTaskId) task = t;
+          });
+          
+          this.render({
+            task,
+            mode: this.EDIT_MODE
+          });
+          this.reRenderEditMode = false;
+        } else {
+          this.render();
+        }
+
         this.$input.textContent = this.currentText;
         setEndOfContenteditable(this.$input);
 
@@ -98,9 +119,17 @@ export class TaskEditor extends Component {
     this.render();
   }
 
+  updateTask({field, updateInfo, id}) {
+    this.dispatch(updateTask({
+      field,
+      updateInfo,
+      id
+    }));
+  }
+
   defaultTask() {
     return {
-      content: this.$input.textContent,
+      content: this.$input.textContent.trim(),
       priority: 'p4',
       projectType: 'Inbox',
       id: Date.now()
@@ -142,8 +171,9 @@ export class TaskEditor extends Component {
     }
 
     if (target.action === 'editor-edit') {
-      this.sendTaskInfo({
-        content: this.$input.textContent.trim(),
+      this.updateTask({
+        field: 'content',
+        updateInfo: this.$input.textContent.trim(),
         id: this.editedTaskId
       });
       this.destroy(this.EDIT_MODE);
@@ -161,8 +191,9 @@ export class TaskEditor extends Component {
       event.preventDefault();
 
       if (!this.$editorConfirmBtn.disabled && this.isEditing) {
-        this.sendTaskInfo({
-          content: this.$input.textContent.trim(),
+        this.updateTask({
+          field: 'content',
+          updateInfo: this.$input.textContent.trim(),
           id: this.editedTaskId
         });
         this.destroy(this.EDIT_MODE);

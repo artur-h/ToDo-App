@@ -1,17 +1,17 @@
-import {CHANGE_TEXT, CREATE_TASK, REMOVE_TASK} from './types';
+import {UPDATE_TASK, CREATE_TASK, REMOVE_TASK} from './types';
 
 export function rootReducer(state, action) {
-  let field;
-
   switch (action.type) {
     case CREATE_TASK:
-      field = 'taskList';
       return {
         ...state,
-        taskList: value(state, field, action)
+        taskList: addNewTask(state, action)
       };
-    case CHANGE_TEXT:
-      return {...state};
+    case UPDATE_TASK:
+      return {
+        ...state,
+        taskList: updateTask(state, action)
+      };
     case REMOVE_TASK:
       delete state.taskList[action.id];
       return {...state};
@@ -19,8 +19,19 @@ export function rootReducer(state, action) {
   }
 }
 
-function value(state, field, action) {
-  const val = state[field] || {};
+function addNewTask(state, action) {
+  const val = state.taskList || {};
   val[action.data.id] = action.data;
+  return val;
+}
+
+function updateTask(state, action) {
+  const val = state.taskList || {};
+
+  val[action.data.id] = {
+    ...val[action.data.id], 
+    [action.data.field]: action.data.updateInfo
+  };
+
   return val;
 }
