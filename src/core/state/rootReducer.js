@@ -1,4 +1,4 @@
-import {CHANGE_TEXT, CREATE_TASK} from '@core/state/types';
+import {CHANGE_TEXT, CREATE_TASK, REMOVE_TASK} from './types';
 
 export function rootReducer(state, action) {
   let field;
@@ -11,6 +11,9 @@ export function rootReducer(state, action) {
         taskList: value(state, field, action)
       };
     case CHANGE_TEXT:
+      return {...state};
+    case REMOVE_TASK:
+      delete state.taskList[action.id];
       return {...state};
     default: return state;
   }

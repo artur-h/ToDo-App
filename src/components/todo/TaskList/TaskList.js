@@ -5,6 +5,7 @@ import {ContextEditor} from '@ContextEditor/ContextEditor';
 import {prepareTask} from '@components/todo/TaskList/taskList.functions';
 import {EmptyStatePlaceholder} from '@holder/EmptyStatePlaceholder';
 import {$} from '@core/Dom';
+import {removeTask} from '@actions';
 
 export class TaskList extends Component {
   static className = 'editor';
@@ -42,10 +43,6 @@ export class TaskList extends Component {
       this.duplicateTask(task);
     });
 
-    this.on('ContextEditor: delete', task => {
-      this.deleteTask(task);
-    });
-
     this.on('ContextEditor: priority', data => {
       this.updatePriority(data);
     });
@@ -78,6 +75,23 @@ export class TaskList extends Component {
     });
   }
 
+  removeTask(target) {
+    this.emit('TaskList: re-render', 'prepare');
+
+    const id = $(target.closestData('action', 'complete')).id;
+    this.dispatch(removeTask(id));
+
+    this.emit('TaskList: re-render', 'finish');
+
+    const taskEditor = this.subComponents.find(subComponent => {
+      return subComponent instanceof TaskEditor;
+    });
+    
+    if (this.taskList().length === 0 && taskEditor.destroyed === true) {
+      this.emit('renderPlaceholder', {});
+    }
+  }
+
   renderTask(newTask) {
     const renderedTask = createTask(prepareTask(newTask, this.taskListData));
     const $taskEditor = $(this.$root.find('[data-type="task-editor"]'));
@@ -93,12 +107,6 @@ export class TaskList extends Component {
     task.parent.removeChild(task);
   }
 
-  completeTask(target) {
-    const $task = $(target.closestData('type', 'task'));
-
-    this.deleteTask($task);
-  }
-
   duplicateTask(task) {
     let duplicateTask;
 
@@ -110,12 +118,6 @@ export class TaskList extends Component {
     });
 
     task.insertHtmlAfter(createTask(duplicateTask));
-  }
-
-  deleteTask(task) {
-    this.taskListData = this.taskListData.filter(t => t.id !== task.id);
-    task.parent.removeChild(task);
-    this.renderEmptyStatePlaceholder();
   }
 
   renderEmptyStatePlaceholder() {
@@ -135,7 +137,7 @@ export class TaskList extends Component {
     }
 
     if (target.closestData('action', 'complete')) {
-      this.completeTask(target);
+      this.removeTask(target);
     }
 
     if (target.closestData('action', 'details')) {

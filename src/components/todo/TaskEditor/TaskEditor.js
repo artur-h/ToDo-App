@@ -1,5 +1,6 @@
 import {Component} from '@components/Component';
 import {renderTaskEditor} from '@TaskEditor/taskEditor.functions';
+import {setEndOfContenteditable} from '@core/utils';
 import {$} from '@core/Dom';
 import {createTask} from '@core/state/actions';
 
@@ -26,11 +27,12 @@ export class TaskEditor extends Component {
   }
 
   prepare() {
-    this.on('add-task', () => this.render({mode: this.ADD_MODE}));
+    this.on('add-task', () => this.render());
     this.on('ContextEditor: edit', task => this.editTask(task));
+    this.on('TaskList: re-render', phase => this.reRender(phase));
   }
 
-  render(options) {
+  render(options = {mode: this.ADD_MODE}) {
     if (this.isEditing) {
       $('[data-type="task-editor"]').before(this.currentEditTask);
       this.destroy(this.EDIT_MODE);
@@ -47,7 +49,7 @@ export class TaskEditor extends Component {
       this.destroyed] = Object.values(componentInfo);
   }
 
-  destroy(mode = 'add-task') {
+  destroy(mode = this.ADD_MODE) {
     super.destroy();
 
     this.$input.textContent = '';
@@ -55,7 +57,7 @@ export class TaskEditor extends Component {
     this.destroyed = true;
     this.isEditing = false;
 
-    if (mode === 'add-task') {
+    if (mode === this.ADD_MODE) {
       this.$listAddTaskBtn.css({
         display: 'flex'
       });
@@ -64,10 +66,36 @@ export class TaskEditor extends Component {
     this.emit('TaskEditor: destroy', {});
   }
 
+  reRender(phase) {
+    if (phase === 'prepare') {
+      if (this.destroyed === false) {
+        this.currentText = this.$input.textContent;
+        this.reRenderStatus = 'prepared';
+        this.destroy();
+      }
+    } else if (phase === 'finish') {
+      if (this.reRenderStatus === 'prepared') {
+        this.render();
+        this.$input.textContent = this.currentText;
+        setEndOfContenteditable(this.$input);
+
+        if (this.$input.textContent) this.$editorConfirmBtn.disabled = false;
+
+        this.reRenderStatus = 'finished';
+      }
+    }
+  }
+
   sendTaskInfo(customized = null) {
     const defaultTask = this.defaultTask();
 
     this.emit('TaskEditor: render', customized || defaultTask);
+  }
+
+  addTask() {
+    this.dispatch(createTask(this.defaultTask()));
+    this.setDefaultEditorView();
+    this.render();
   }
 
   defaultTask() {
@@ -110,8 +138,7 @@ export class TaskEditor extends Component {
     }
 
     if (target.action === 'editor-add-task') {
-      this.dispatch(createTask(this.defaultTask()));
-      this.setDefaultEditorView();
+      this.addTask();
     }
 
     if (target.action === 'editor-edit') {
@@ -140,8 +167,7 @@ export class TaskEditor extends Component {
         });
         this.destroy(this.EDIT_MODE);
       } else if (!this.$editorConfirmBtn.disabled) {
-        this.sendTaskInfo();
-        this.setDefaultEditorView();
+        this.addTask();
       }
     }
 
