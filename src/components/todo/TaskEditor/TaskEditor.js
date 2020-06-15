@@ -1,5 +1,8 @@
 import {Component} from '@components/Component';
-import {renderTaskEditor} from '@TaskEditor/taskEditor.functions';
+import {
+  renderTaskEditor,
+  taskListIsEmpty
+} from '@TaskEditor/taskEditor.functions';
 import {setEndOfContenteditable} from '@core/utils';
 import {$} from '@core/Dom';
 import {createTask, updateTask} from '@core/state/actions';
@@ -29,7 +32,7 @@ export class TaskEditor extends Component {
   prepare() {
     this.on('add-task', () => this.render());
     this.on('ContextEditor: edit', task => this.editTask(task));
-    this.on('TaskList: re-render', phase => this.reRender(phase));
+    this.on('re-render', phase => this.reRender(phase));
   }
 
   render(options = {mode: this.ADD_MODE}) {
@@ -85,13 +88,10 @@ export class TaskEditor extends Component {
           const tasks = $(document.body).findAll('[data-type="task"]');
           let task;
           tasks.forEach(t => {
-            if (+t.dataset.id === this.editedTaskId) task = t;
+            if (+t.dataset.id === this.editedTaskId) task = $(t);
           });
           
-          this.render({
-            task,
-            mode: this.EDIT_MODE
-          });
+          this.editTask(task);
           this.reRenderEditMode = false;
         } else {
           this.render();
@@ -104,6 +104,10 @@ export class TaskEditor extends Component {
 
         this.reRenderStatus = 'finished';
       }
+    }
+
+    if (taskListIsEmpty(this.store, this.destroyed)) {
+      this.emit('renderPlaceholder', {});
     }
   }
 

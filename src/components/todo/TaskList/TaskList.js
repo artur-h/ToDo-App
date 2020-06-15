@@ -76,20 +76,12 @@ export class TaskList extends Component {
   }
 
   removeTask(target) {
-    this.emit('TaskList: re-render', 'prepare');
+    this.emit('re-render', 'prepare');
 
     const id = $(target.closestData('action', 'complete')).id;
     this.dispatch(removeTask(id));
 
-    this.emit('TaskList: re-render', 'finish');
-
-    const taskEditor = this.subComponents.find(subComponent => {
-      return subComponent instanceof TaskEditor;
-    });
-    
-    if (this.taskList().length === 0 && taskEditor.destroyed === true) {
-      this.emit('renderPlaceholder', {});
-    }
+    this.emit('re-render', 'finish');
   }
 
   renderTask(newTask) {
