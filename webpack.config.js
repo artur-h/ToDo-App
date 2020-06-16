@@ -41,7 +41,9 @@ module.exports = {
       '@TaskEditor': path
           .resolve(__dirname, 'src/components/todo/TaskEditor/'),
       '@holder': path
-          .resolve(__dirname, 'src/components/todo/EmptyStatePlaceholder/')
+          .resolve(__dirname, 'src/components/todo/EmptyStatePlaceholder/'),
+      '@actions': path
+          .resolve(__dirname, 'src/core/state/actions/')
     }
   },
   devtool: isDev ? 'source-map' : false,

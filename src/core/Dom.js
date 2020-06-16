@@ -11,6 +11,10 @@ class Dom {
     return this.$el.querySelector(selector);
   }
 
+  findAll(selector) {
+    return this.$el.querySelectorAll(selector);
+  }
+
   off(event, handler) {
     this.$el.removeEventListener(event, handler);
   }

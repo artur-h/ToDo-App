@@ -9,6 +9,7 @@ function taskTemplate({id, content, priority, projectType}) {
       <div class="list__details">
         <div 
           class="list__check list__check--${priority}" 
+          data-id="${id}"
           data-action="complete"
         >
           <span class="material-icons-round list__check-inner">done</span>

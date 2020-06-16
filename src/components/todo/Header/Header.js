@@ -8,6 +8,7 @@ export class Header extends Component {
     super($root, {
       ...options,
       name: 'Header',
+      subscribe: [],
       listeners: ['click']
     });
   }

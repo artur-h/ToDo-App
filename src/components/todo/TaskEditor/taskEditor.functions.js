@@ -15,8 +15,8 @@ export function renderTaskEditor(root, options) {
   $input.focus();
   
   if (options.mode === 'edit') {
-    const currentInput = $(options.task.find('[data-type="task-input"]'));
-    $($input).text(currentInput.text());
+    const currentInput = options.task.find('[data-type="task-input"]');
+    $($input).text(currentInput.textContent);
     setEndOfContenteditable($input);
     $editorConfirmBtn.disabled = false;
   }
@@ -39,8 +39,14 @@ function insertEditorBefore(root, listBtn, options) {
 
     return listBtn;
   } else if (options.mode === 'edit') {
-    options.task.before(root);
+    $(options.task).before(root);
 
     return null;
   }
+}
+
+export function taskListIsEmpty(store, isDestroyed) {
+  const taskList = store.getState().taskList;
+
+  return taskList.length === 0 && isDestroyed === true;
 }

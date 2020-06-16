@@ -1,10 +1,10 @@
 import {Component} from '@components/Component';
-import {createTask, createTaskList} from './TaskList.template';
 import {TaskEditor} from '@TaskEditor/TaskEditor';
 import {ContextEditor} from '@ContextEditor/ContextEditor';
-import {prepareTask} from '@components/todo/TaskList/taskList.functions';
 import {EmptyStatePlaceholder} from '@holder/EmptyStatePlaceholder';
 import {$} from '@core/Dom';
+import {removeTask} from '@actions';
+import {createTaskList} from '@components/todo/TaskList/TaskList.template';
 
 export class TaskList extends Component {
   static className = 'editor';
@@ -13,6 +13,7 @@ export class TaskList extends Component {
     super($root, {
       ...options,
       name: 'TaskList',
+      subscribe: ['taskList'],
       listeners: ['click']
     });
 
@@ -20,11 +21,15 @@ export class TaskList extends Component {
     this.subComponents = [TaskEditor, ContextEditor, EmptyStatePlaceholder];
   }
 
+  get taskList() {
+    return this.store.getState().taskList;
+  }
+
   init() {
     super.init();
 
     this.subComponents = this.subComponents.map(SubComponent => {
-      return new SubComponent(this.observer);
+      return new SubComponent(this.observer, this.store);
     });
 
     this.renderEmptyStatePlaceholder();
@@ -33,24 +38,16 @@ export class TaskList extends Component {
       this.renderEmptyStatePlaceholder();
     });
 
-    this.on('TaskEditor: render', newTask => {
-      this.renderTask(newTask);
-    });
-
-    this.on('ContextEditor: duplicate', task => {
-      this.duplicateTask(task);
-    });
-
-    this.on('ContextEditor: delete', task => {
-      this.deleteTask(task);
-    });
-
-    this.on('ContextEditor: priority', data => {
-      this.updatePriority(data);
+    this.on('ContextEditor: delete', data => {
+      this.removeTask(data);
     });
   }
 
-  toHTML(data = this.taskListData) {
+  storeChanged(changes) {
+    this.$root.html(this.toHTML(changes.taskList));
+  }
+
+  toHTML(data = this.taskList) {
     return createTaskList(data);
   }
 
@@ -68,48 +65,16 @@ export class TaskList extends Component {
     });
   }
 
-  renderTask(newTask) {
-    const renderedTask = createTask(prepareTask(newTask, this.taskListData));
-    const $taskEditor = $(this.$root.find('[data-type="task-editor"]'));
-    $taskEditor.insertHtmlBefore(renderedTask);
-  }
+  removeTask(id) {
+    this.emit('re-render', 'prepare');
 
-  updatePriority(data) {
-    const task = data.task;
-    delete data.task;
+    this.dispatch(removeTask({id}));
 
-    const renderedTask = createTask(prepareTask(data, this.taskListData));
-    task.insertHtmlBefore(renderedTask);
-    task.parent.removeChild(task);
-  }
-
-  completeTask(target) {
-    const $task = $(target.closestData('type', 'task'));
-
-    this.deleteTask($task);
-  }
-
-  duplicateTask(task) {
-    let duplicateTask;
-
-    this.taskListData.forEach((t, index, arr) => {
-      if (t.id === task.id) {
-        duplicateTask = {...t, ...{id: Date.now()}};
-        arr.splice(index + 1, 0, duplicateTask);
-      }
-    });
-
-    task.insertHtmlAfter(createTask(duplicateTask));
-  }
-
-  deleteTask(task) {
-    this.taskListData = this.taskListData.filter(t => t.id !== task.id);
-    task.parent.removeChild(task);
-    this.renderEmptyStatePlaceholder();
+    this.emit('re-render', 'finish');
   }
 
   renderEmptyStatePlaceholder() {
-    if (this.taskListData.length === 0) {
+    if (this.taskList.length === 0) {
       this.emit('renderPlaceholder', {});
     }
   }
@@ -119,13 +84,14 @@ export class TaskList extends Component {
 
     if (target.closestData('action', 'add-task')) {
       this.emit('add-task', {});
-      if (this.taskListData.length === 0) {
+      if (this.taskList.length === 0) {
         this.emit('destroyPlaceholder', {});
       }
     }
 
     if (target.closestData('action', 'complete')) {
-      this.completeTask(target);
+      const id = $(target.closestData('action', 'complete')).id;
+      this.removeTask(id);
     }
 
     if (target.closestData('action', 'details')) {
