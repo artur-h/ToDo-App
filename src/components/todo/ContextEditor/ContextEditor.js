@@ -76,6 +76,18 @@ export class ContextEditor extends Component {
     }
   }
 
+  changePriority($target) {
+    this.emit('re-render', 'prepare');
+
+    this.dispatch(updateTask({
+      field: 'priority',
+      updateInfo: $target.priority,
+      id: this.$curentTask.id
+    }));
+
+    this.emit('re-render', 'finish');
+  }
+
   onClick(event) {
     const $target = $(event.target);
 
@@ -84,8 +96,12 @@ export class ContextEditor extends Component {
     }
 
     if ($target.closestData('action', 'duplicate')) {
+      this.emit('re-render', 'prepare');
+
       const id = this.$curentTask.id;
       this.dispatch(duplicateTask({id}));
+
+      this.emit('re-render', 'finish');
     }
 
     if ($target.closestData('action', 'delete')) {
@@ -95,11 +111,7 @@ export class ContextEditor extends Component {
 
     if ($target.priority) {
       if (this.$curentTask.priority !== $target.priority) {
-        this.dispatch(updateTask({
-          field: 'priority',
-          updateInfo: $target.priority,
-          id: this.$curentTask.id
-        }));
+        this.changePriority($target);
       }
     }
 
