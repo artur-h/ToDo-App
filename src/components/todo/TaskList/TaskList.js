@@ -22,6 +22,10 @@ export class TaskList extends Component {
     this.subComponents = [TaskEditor, ContextEditor, EmptyStatePlaceholder];
   }
 
+  get taskList() {
+    return this.store.getState().taskList;
+  }
+
   init() {
     super.init();
 
@@ -49,15 +53,10 @@ export class TaskList extends Component {
   }
 
   storeChanged(changes) {
-    const taskList = Object.values(changes.taskList);
-    this.$root.html(this.toHTML(taskList));
+    this.$root.html(this.toHTML(changes.taskList));
   }
 
-  taskList() {
-    return Object.values(this.store.getState().taskList);
-  }
-
-  toHTML(data = this.taskList()) {
+  toHTML(data = this.taskList) {
     return createTaskList(data);
   }
 
@@ -79,7 +78,7 @@ export class TaskList extends Component {
     this.emit('re-render', 'prepare');
 
     const id = $(target.closestData('action', 'complete')).id;
-    this.dispatch(removeTask(id));
+    this.dispatch(removeTask({id}));
 
     this.emit('re-render', 'finish');
   }
@@ -113,7 +112,7 @@ export class TaskList extends Component {
   }
 
   renderEmptyStatePlaceholder() {
-    if (this.taskList().length === 0) {
+    if (this.taskList.length === 0) {
       this.emit('renderPlaceholder', {});
     }
   }
@@ -123,7 +122,7 @@ export class TaskList extends Component {
 
     if (target.closestData('action', 'add-task')) {
       this.emit('add-task', {});
-      if (this.taskList().length === 0) {
+      if (this.taskList.length === 0) {
         this.emit('destroyPlaceholder', {});
       }
     }

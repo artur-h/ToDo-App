@@ -14,9 +14,9 @@ export function createTask(data) {
   };
 }
 
-export function removeTask(id) {
+export function removeTask(data) {
   return {
     type: REMOVE_TASK,
-    id
+    data
   };
 }

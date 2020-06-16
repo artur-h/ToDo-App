@@ -13,25 +13,41 @@ export function rootReducer(state, action) {
         taskList: updateTask(state, action)
       };
     case REMOVE_TASK:
-      delete state.taskList[action.id];
-      return {...state};
+      return {
+        ...state,
+        taskList: removeTask(state, action)
+      };
     default: return state;
   }
 }
 
 function addNewTask(state, action) {
-  const val = state.taskList || {};
-  val[action.data.id] = action.data;
+  const val = state.taskList || [];
+  val.push(action.data);
   return val;
 }
 
 function updateTask(state, action) {
-  const val = state.taskList || {};
+  let val = state.taskList || [];
 
-  val[action.data.id] = {
-    ...val[action.data.id], 
-    [action.data.field]: action.data.updateInfo
-  };
+  val = val.map(task => {
+    return task.id === action.data.id ?
+        {...task, [action.data.field]: action.data.updateInfo} :
+        task;
+  });
+
+  return val;
+}
+
+function removeTask(state, action) {
+  let val;
+
+  state.taskList.forEach((task, index, arr) => {
+    if (task.id === action.data.id) {
+      arr.splice(index, 1);
+      val = arr;
+    }
+  });
 
   return val;
 }

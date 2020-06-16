@@ -48,5 +48,5 @@ function insertEditorBefore(root, listBtn, options) {
 export function taskListIsEmpty(store, isDestroyed) {
   const taskList = store.getState().taskList;
 
-  return Object.values(taskList).length === 0 && isDestroyed === true;
+  return taskList.length === 0 && isDestroyed === true;
 }
