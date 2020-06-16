@@ -96,8 +96,12 @@ export class ContextEditor extends Component {
     }
 
     if ($target.closestData('action', 'duplicate')) {
+      this.emit('re-render', 'prepare');
+
       const id = this.$curentTask.id;
       this.dispatch(duplicateTask({id}));
+
+      this.emit('re-render', 'finish');
     }
 
     if ($target.closestData('action', 'delete')) {
