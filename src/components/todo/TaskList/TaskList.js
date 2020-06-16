@@ -1,11 +1,10 @@
 import {Component} from '@components/Component';
-import {createTask, createTaskList} from './TaskList.template';
 import {TaskEditor} from '@TaskEditor/TaskEditor';
 import {ContextEditor} from '@ContextEditor/ContextEditor';
-import {prepareTask} from '@components/todo/TaskList/taskList.functions';
 import {EmptyStatePlaceholder} from '@holder/EmptyStatePlaceholder';
 import {$} from '@core/Dom';
 import {removeTask} from '@actions';
+import {createTaskList} from '@components/todo/TaskList/TaskList.template';
 
 export class TaskList extends Component {
   static className = 'editor';
@@ -39,16 +38,8 @@ export class TaskList extends Component {
       this.renderEmptyStatePlaceholder();
     });
 
-    this.on('TaskEditor: render', newTask => {
-      this.renderTask(newTask);
-    });
-
-    this.on('ContextEditor: duplicate', task => {
-      this.duplicateTask(task);
-    });
-
-    this.on('ContextEditor: priority', data => {
-      this.updatePriority(data);
+    this.on('ContextEditor: delete', data => {
+      this.removeTask(data);
     });
   }
 
@@ -74,41 +65,12 @@ export class TaskList extends Component {
     });
   }
 
-  removeTask(target) {
+  removeTask(id) {
     this.emit('re-render', 'prepare');
 
-    const id = $(target.closestData('action', 'complete')).id;
     this.dispatch(removeTask({id}));
 
     this.emit('re-render', 'finish');
-  }
-
-  renderTask(newTask) {
-    const renderedTask = createTask(prepareTask(newTask, this.taskListData));
-    const $taskEditor = $(this.$root.find('[data-type="task-editor"]'));
-    $taskEditor.insertHtmlBefore(renderedTask);
-  }
-
-  updatePriority(data) {
-    const task = data.task;
-    delete data.task;
-
-    const renderedTask = createTask(prepareTask(data, this.taskListData));
-    task.insertHtmlBefore(renderedTask);
-    task.parent.removeChild(task);
-  }
-
-  duplicateTask(task) {
-    let duplicateTask;
-
-    this.taskListData.forEach((t, index, arr) => {
-      if (t.id === task.id) {
-        duplicateTask = {...t, ...{id: Date.now()}};
-        arr.splice(index + 1, 0, duplicateTask);
-      }
-    });
-
-    task.insertHtmlAfter(createTask(duplicateTask));
   }
 
   renderEmptyStatePlaceholder() {
@@ -128,7 +90,8 @@ export class TaskList extends Component {
     }
 
     if (target.closestData('action', 'complete')) {
-      this.removeTask(target);
+      const id = $(target.closestData('action', 'complete')).id;
+      this.removeTask(id);
     }
 
     if (target.closestData('action', 'details')) {

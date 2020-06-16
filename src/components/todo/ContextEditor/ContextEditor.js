@@ -7,13 +7,15 @@ import {
   sameBtnPressed,
   triggered
 } from '@ContextEditor/contextEditor.functions';
+import {duplicateTask, updateTask} from '@core/state/actions';
 
 export class ContextEditor extends Component {
-  constructor(observer) {
+  constructor(observer, store) {
     super(
         $.create('div', 'context-editor'),
         {
           observer,
+          store,
           name: 'ContextEditor',
           listeners: ['click', 'mouseover']
         }
@@ -79,31 +81,29 @@ export class ContextEditor extends Component {
 
     if ($target.closestData('action', 'edit')) {
       this.emit('ContextEditor: edit', this.$curentTask);
-      this.destroy();
     }
 
     if ($target.closestData('action', 'duplicate')) {
-      this.emit('ContextEditor: duplicate', this.$curentTask);
-      this.destroy();
+      const id = this.$curentTask.id;
+      this.dispatch(duplicateTask({id}));
     }
 
     if ($target.closestData('action', 'delete')) {
-      this.emit('ContextEditor: delete', this.$curentTask);
-      this.destroy();
+      const id = this.$curentTask.id;
+      this.emit('ContextEditor: delete', id);
     }
 
     if ($target.priority) {
-      if (this.$curentTask.priority === $target.priority) {
-        this.destroy();
-      } else {
-        this.emit('ContextEditor: priority', {
-          id: this.$curentTask.id,
-          task: this.$curentTask, 
-          priority: $target.priority
-        });
-        this.destroy();
+      if (this.$curentTask.priority !== $target.priority) {
+        this.dispatch(updateTask({
+          field: 'priority',
+          updateInfo: $target.priority,
+          id: this.$curentTask.id
+        }));
       }
     }
+
+    this.destroy();
   }
 
   onMouseover(event) {

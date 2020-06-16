@@ -1,4 +1,9 @@
-import {UPDATE_TASK, CREATE_TASK, REMOVE_TASK} from '@core/state/types';
+import {
+  UPDATE_TASK,
+  CREATE_TASK,
+  REMOVE_TASK,
+  DUPLICATE_TASK
+} from '@core/state/types';
 
 export function updateTask(data) {
   return {
@@ -17,6 +22,13 @@ export function createTask(data) {
 export function removeTask(data) {
   return {
     type: REMOVE_TASK,
+    data
+  };
+}
+
+export function duplicateTask(data) {
+  return {
+    type: DUPLICATE_TASK,
     data
   };
 }

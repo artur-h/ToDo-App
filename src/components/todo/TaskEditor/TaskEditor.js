@@ -111,12 +111,6 @@ export class TaskEditor extends Component {
     }
   }
 
-  sendTaskInfo(customized = null) {
-    const defaultTask = this.defaultTask();
-
-    this.emit('TaskEditor: render', customized || defaultTask);
-  }
-
   addTask() {
     this.dispatch(createTask(this.defaultTask()));
     this.setDefaultEditorView();
